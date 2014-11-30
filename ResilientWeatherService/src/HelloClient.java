@@ -1,5 +1,16 @@
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.StringReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+
+import org.w3c.dom.Document;
+import org.xml.sax.InputSource;
 
 /**
  * This class is used initialize the hello client which is used to register for call backs and 
@@ -9,6 +20,7 @@ import java.rmi.registry.Registry;
  */
 public class HelloClient
 {
+    public static String USER_AGENT = "Mozilla/5.0";
 
     /**
      * This is the main function of the hello client that is responsible for
@@ -35,6 +47,10 @@ public class HelloClient
         {
             // Retrieve the registry that is defined on a specific hostname and port number. Should match the server.
             Registry registry = LocateRegistry.getRegistry ( hostname, portnumber ) ;
+            
+            System.out.println (sendGet());
+            
+            Document doc = convertStringToDocument(sendGet());
             
             // Find and initialize the hello server interface for registering for callback
             HelloServerInterface helloServerCaller = ( HelloServerInterface ) registry.lookup ( "HelloServerInterface" ) ;
@@ -63,4 +79,57 @@ public class HelloClient
         catch ( InterruptedException e ) { System.out.println ( "Interrup Occured: " + e.getMessage () ) ; e.printStackTrace () ; }
         catch ( Exception e ) { System.out.println ( "Exception: " + e.getMessage () ) ; e.printStackTrace () ; }
     }
+    
+    
+    // HTTP GET request
+    public static String sendGet() throws Exception 
+    {
+        String url = "http://weather.gc.ca/rss/city/on-122_e.xml";
+
+        URL obj = new URL(url);
+        HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+
+        // optional default is GET
+        con.setRequestMethod("GET");
+
+        //add request header
+        con.setRequestProperty("User-Agent", USER_AGENT);
+
+        int responseCode = con.getResponseCode();
+        System.out.println("\nSending 'GET' request to URL : " + url);
+        System.out.println("Response Code : " + responseCode);
+
+        BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+        String inputLine;
+        StringBuffer response = new StringBuffer();
+
+        while ((inputLine = in.readLine()) != null) 
+        {
+            response.append(inputLine);
+        }
+        in.close();
+        
+        return response.toString();
+    }
+    
+    private static Document convertStringToDocument ( String xmlStr )
+    {
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance ();
+        DocumentBuilder builder;
+        
+        try
+        {
+            builder = factory.newDocumentBuilder ();
+            Document doc = builder.parse ( new InputSource ( new StringReader ( xmlStr ) ) );
+            System.out.println ( doc.toString () );
+            return doc;
+        }
+        catch ( Exception e )
+        {
+            e.printStackTrace ();
+        }
+        
+        return null;
+    }
+ 
 }
