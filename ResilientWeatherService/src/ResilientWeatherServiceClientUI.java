@@ -18,30 +18,43 @@ import javax.swing.JToolBar;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 
-
-public class ResilientWeatherServiceClientUI extends JFrame {
-
-
-    /**
-     * 
-     */
+/**
+ * This class is used to construct the Resilient Weather Service Client UI.
+ * Read through the below comments to get more details on the functionality of the
+ * class and its dependent functions.
+ * @author Devan Shah 100428864 Miguel Arindaeng 100394094
+ *
+ */
+public class ResilientWeatherServiceClientUI extends JFrame 
+{
+    // Default serialization ID
     private static final long serialVersionUID = 1L;
     
+    // Variable deceleration
     public static String selectedProvince = "Ontario";
     public static String selectedCity = "Oshawa";
-    public static JComboBox<String> supportedProvincesList;
-    public static JComboBox<String> supportedCitiesList;
+    
+    // Province and Cities Array deceleration
     public static String[] supportedProvinces = new String[] { "Ontario" };
     public static String[] supportedCities = new String[] { "Oshawa", "Vaughan" };
-    public static JToolBar vertical;
-    public static JPanel panel;
-    public static JTextArea weatherTextArea;
+    
+    // Swing components used to build the Resilient Weather Service Client UI
+    public static JComboBox<String> supportedProvincesList;  // Used to construct a dropdown box for provinces
+    public static JComboBox<String> supportedCitiesList;     // Used to construct a dropdown box for cities
+    public static JToolBar verticalWeatherOptionsBar;        // Used to construct a side bar for options (feeds, current weather and settings)
+    public static JPanel weatherInformationPanel;            // Used to construct a panel which will contain weather information
+    public static JTextArea weatherTextArea;                 // Used to construct a text block to store information on weather
+    public static JMenuBar weatherTopMenuBar;                // Used to construct a top menu bar for weather (has no function)
+    public static JMenu weatherTopDescription;               // Used to construct a menu option for top menu bar (has no function)
     
     /**
-     * 
+     * Default constructor for the ResilientWeatherServiceClientUI class, when 
+     * new object of ResilientWeatherServiceClientUI is created it starts to 
+     * construct the Resilient Weather Service Client UI for the users.
      */
-    public ResilientWeatherServiceClientUI() {
-
+    public ResilientWeatherServiceClientUI() 
+    {
+        // Construct the Resilient Weather Service Client UI
         constructResilientWeatherServiceClientUI();
     }
 
@@ -50,14 +63,14 @@ public class ResilientWeatherServiceClientUI extends JFrame {
      */
     public void constructResilientWeatherServiceClientUI()
     {
-        JMenuBar topMenuBar = new JMenuBar();
-        JMenu discription = new JMenu("Weather Information Feeds/Current Weather");
+        weatherTopMenuBar = new JMenuBar();
+        weatherTopDescription = new JMenu("Weather Information Feeds/Current Weather");
         weatherTextArea = new JTextArea();
-        panel = new JPanel();
-        panel.setPreferredSize ( new Dimension(400, 440) );
+        weatherInformationPanel = new JPanel();
+        weatherInformationPanel.setPreferredSize ( new Dimension(400, 440) );
 
-        topMenuBar.add(discription);
-        setJMenuBar(topMenuBar);
+        weatherTopMenuBar.add(weatherTopDescription);
+        setJMenuBar(weatherTopMenuBar);
         
         constructComboBoxForProvincesAndCities();
         
@@ -66,8 +79,8 @@ public class ResilientWeatherServiceClientUI extends JFrame {
         weatherTextArea.setText ( "WELCOME ... Go to Setting to configure your weather settings." );
         
         add(weatherTextArea, BorderLayout.CENTER);
-        add(panel, BorderLayout.CENTER);
-        add(vertical, BorderLayout.WEST);
+        add(weatherInformationPanel, BorderLayout.CENTER);
+        add(verticalWeatherOptionsBar, BorderLayout.WEST);
         
         pack();
         setSize(500, 500);
@@ -127,9 +140,9 @@ public class ResilientWeatherServiceClientUI extends JFrame {
      */
     public void constructVerticalWeatherSelectionBar()
     {
-        vertical = new JToolBar(JToolBar.VERTICAL);
-        vertical.setFloatable(false);
-        vertical.setMargin(new Insets(10, 5, 5, 5));
+        verticalWeatherOptionsBar = new JToolBar(JToolBar.VERTICAL);
+        verticalWeatherOptionsBar.setFloatable(false);
+        verticalWeatherOptionsBar.setMargin(new Insets(10, 5, 5, 5));
 
         ImageIcon feeds = new ImageIcon("feed.png");
         ImageIcon currentWeather = new ImageIcon("currentWeather.png");
@@ -150,7 +163,7 @@ public class ResilientWeatherServiceClientUI extends JFrame {
             public void actionPerformed ( ActionEvent event )
             {
                 weatherTextArea.setText ( "FEEDS ARE HERE" );
-                remove(panel);
+                remove(weatherInformationPanel);
                 add(weatherTextArea, BorderLayout.CENTER);
                 repaint ();
             }
@@ -162,7 +175,7 @@ public class ResilientWeatherServiceClientUI extends JFrame {
             public void actionPerformed ( ActionEvent event )
             {
                 weatherTextArea.setText ( "CURRENT WEATHER HERE" );
-                remove(panel);
+                remove(weatherInformationPanel);
                 add(weatherTextArea, BorderLayout.CENTER);
                 repaint ();
             }
@@ -174,17 +187,17 @@ public class ResilientWeatherServiceClientUI extends JFrame {
             public void actionPerformed ( ActionEvent event )
             {
                 remove(weatherTextArea);
-                panel.add(supportedProvincesList, BorderLayout.CENTER);
-                panel.add(supportedCitiesList, BorderLayout.CENTER);
-                add(panel, BorderLayout.CENTER);
+                weatherInformationPanel.add(supportedProvincesList, BorderLayout.CENTER);
+                weatherInformationPanel.add(supportedCitiesList, BorderLayout.CENTER);
+                add(weatherInformationPanel, BorderLayout.CENTER);
                 pack();
                 repaint ();
             }
         } );
 
-        vertical.add(selectFeeds);
-        vertical.add(selectCurrentWeather);
-        vertical.add(selectSettings);
+        verticalWeatherOptionsBar.add(selectFeeds);
+        verticalWeatherOptionsBar.add(selectCurrentWeather);
+        verticalWeatherOptionsBar.add(selectSettings);
     }
 
     public static void main(String[] args) 
