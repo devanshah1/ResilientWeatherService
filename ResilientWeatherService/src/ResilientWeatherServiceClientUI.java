@@ -17,7 +17,6 @@ import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JToolBar;
-import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 
 /**
@@ -339,16 +338,5 @@ public class ResilientWeatherServiceClientUI extends JFrame
         verticalWeatherOptionsBar.add(selectFeeds);
         verticalWeatherOptionsBar.add(selectCurrentWeather);
         verticalWeatherOptionsBar.add(selectSettings);
-    }
-
-    public static void main(String[] args) 
-    {
-        SwingUtilities.invokeLater(new Runnable() {
-
-            public void run() {
-                ResilientWeatherServiceClientUI ex = new ResilientWeatherServiceClientUI();
-                ex.setVisible(true);
-            }
-        });
     }
 }
