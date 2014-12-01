@@ -254,16 +254,6 @@ public class ResilientWeatherServiceClientUI extends JFrame
 
                 // Set the description label for the feed
                 weatherLocationInformation.setText ( "Feed Information for: " + selectedCity + ", " + selectedProvince );
-//                weatherWatchesAndWarningsLabel.setText ( "FEEDS ARE HERE" );
-//                currentWeatherConditionsLabel.setText ( "TESTING LABEL" );
-//                currentDayWeatherLabel.setText ( "TESTING LABEL1" );
-//                currentDayNightWeatherLabel.setText ( "TESTING LABEL2" );
-//                nextFirstDayWeatherLabel.setText ( "TESTING LABEL3" );
-//                nextSecondDayWeatherLabel.setText ( "TESTING LABEL4" );
-//                nextThirdDayWeatherLabel.setText ( "TESTING LABEL5" );
-//                nextForthDayWeatherLabel.setText ( "TESTING LABEL6" );
-//                nextFifthDayWeatherLabel.setText ( "TESTING LABEL7" );
-//                nextSixthDayWeatherLabel.setText ( "TESTING LABEL8" );
                 
                 // Add all the necessary feed information to the panel that will be displayed when feed clicked
                 weatherInformationPanel.add(weatherLocationInformation, BorderLayout.PAGE_START);

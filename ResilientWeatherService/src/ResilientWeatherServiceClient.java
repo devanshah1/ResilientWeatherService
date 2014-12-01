@@ -48,6 +48,15 @@ public class ResilientWeatherServiceClient
             ResilientWeatherServiceClientUI resilientWeatherServiceClientUserInterface = new ResilientWeatherServiceClientUI();
             resilientWeatherServiceClientUserInterface.setVisible(true);
             resilientWeatherServiceClientUserInterface.weatherWatchesAndWarningsLabel.setText ( "WARNING" );
+            resilientWeatherServiceClientUserInterface.currentWeatherConditionsLabel.setText ( "Current Weather Condition" );
+            resilientWeatherServiceClientUserInterface.currentDayWeatherLabel.setText ( "Current Day Weather" );
+            resilientWeatherServiceClientUserInterface.currentDayNightWeatherLabel.setText ( "Current Day Night Weather" );
+            resilientWeatherServiceClientUserInterface.nextFirstDayWeatherLabel.setText ( "Firsy Day Weather " );
+            resilientWeatherServiceClientUserInterface.nextSecondDayWeatherLabel.setText ( "Second Day Weather" );
+            resilientWeatherServiceClientUserInterface.nextThirdDayWeatherLabel.setText ( "Third Day Weather" );
+            resilientWeatherServiceClientUserInterface.nextForthDayWeatherLabel.setText ( "Forth Day Weather" );
+            resilientWeatherServiceClientUserInterface.nextFifthDayWeatherLabel.setText ( "Fifth Day Weather" );
+            resilientWeatherServiceClientUserInterface.nextSixthDayWeatherLabel.setText ( "Sixed Day Weather" );
             
             // Retrieve the registry that is defined on a specific hostname and port number. Should match the server.
             Registry registry = LocateRegistry.getRegistry ( hostname, portnumber ) ;
