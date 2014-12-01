@@ -45,8 +45,9 @@ public class ResilientWeatherServiceClient
         
         try
         {
-            ResilientWeatherServiceClientUI ex = new ResilientWeatherServiceClientUI();
-            ex.setVisible(true);
+            ResilientWeatherServiceClientUI resilientWeatherServiceClientUserInterface = new ResilientWeatherServiceClientUI();
+            resilientWeatherServiceClientUserInterface.setVisible(true);
+            resilientWeatherServiceClientUserInterface.weatherWatchesAndWarningsLabel.setText ( "WARNING" );
             
             // Retrieve the registry that is defined on a specific hostname and port number. Should match the server.
             Registry registry = LocateRegistry.getRegistry ( hostname, portnumber ) ;
@@ -56,7 +57,7 @@ public class ResilientWeatherServiceClient
             Document doc = convertStringToDocument(sendGet());
             
             // Find and initialize the hello server interface for registering for callback
-            ResilientWeatherServiceServerInterface helloServerCaller = ( ResilientWeatherServiceServerInterface ) registry.lookup ( "HelloServerInterface" ) ;
+            ResilientWeatherServiceServerInterface helloServerCaller = ( ResilientWeatherServiceServerInterface ) registry.lookup ( "ResilientWeatherServiceServerInterface" ) ;
             System.out.println ( "Found Hello Callback Server!" ) ;
             
             // Get a response from the server

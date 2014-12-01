@@ -49,17 +49,17 @@ public class ResilientWeatherServiceClientUI extends JFrame
     public static JMenu weatherTopDescription;               // Used to construct a menu option for top menu bar (has no function)
     
     // Swing components for feeds
-    public static JLabel weatherLocationInformation;     // Used to store the location information of the feed that is presented
-    public static JLabel weatherWatchesAndWarningsLabel; // Used to store the information for watches and warnings
-    public static JLabel currentWeatherConditionsLabel;  // Used to store the information for the current weather conditions
-    public static JLabel currentDayWeatherLabel;         // Used to store the information for weather of the current day
-    public static JLabel currentDayNightWeatherLabel;    // Used to store the information for weather of the current day (nights)
-    public static JLabel nextFirstDayWeatherLabel;       // Used to store the information for weather for the next first day
-    public static JLabel nextSecondDayWeatherLabel;      // Used to store the information for weather for the next second day
-    public static JLabel nextThirdDayWeatherLabel;       // Used to store the information for weather for the next third day
-    public static JLabel nextForthDayWeatherLabel;       // Used to store the information for weather for the next forth day
-    public static JLabel nextFifthDayWeatherLabel;       // Used to store the information for weather for the next fifth day
-    public static JLabel nextSixthDayWeatherLabel;       // Used to store the information for weather for the next sixth day
+    public JLabel weatherLocationInformation;     // Used to store the location information of the feed that is presented
+    public JLabel weatherWatchesAndWarningsLabel; // Used to store the information for watches and warnings
+    public JLabel currentWeatherConditionsLabel;  // Used to store the information for the current weather conditions
+    public JLabel currentDayWeatherLabel;         // Used to store the information for weather of the current day
+    public JLabel currentDayNightWeatherLabel;    // Used to store the information for weather of the current day (nights)
+    public JLabel nextFirstDayWeatherLabel;       // Used to store the information for weather for the next first day
+    public JLabel nextSecondDayWeatherLabel;      // Used to store the information for weather for the next second day
+    public JLabel nextThirdDayWeatherLabel;       // Used to store the information for weather for the next third day
+    public JLabel nextForthDayWeatherLabel;       // Used to store the information for weather for the next forth day
+    public JLabel nextFifthDayWeatherLabel;       // Used to store the information for weather for the next fifth day
+    public JLabel nextSixthDayWeatherLabel;       // Used to store the information for weather for the next sixth day
     
     // Swing components for current weather
     //public static 

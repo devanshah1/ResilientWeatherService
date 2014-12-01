@@ -51,7 +51,7 @@ public class ResilientWeatherServiceServer
             }
             
             // Once the registry is successfully created, rebind the HelloServerInterface to the remote reference created above.
-            registry.rebind ( "HelloServerInterface", registerObject ) ;
+            registry.rebind ( "ResilientWeatherServiceServerInterface", registerObject ) ;
             System.out.println ( "Callback Server ready." ) ;
         }
         // Catch the exception and provide the necessary information to the user.        
