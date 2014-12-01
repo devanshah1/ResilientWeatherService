@@ -12,13 +12,20 @@ public class ResilientWeatherServiceClientImplementation extends UnicastRemoteOb
     // Default serialization ID
     private static final long serialVersionUID = 1L ;
 
+    public String province;
+    public String city;
+    
     /**
      * Constructor of the class.
+     * @param selectedCity 
+     * @param selectedProvince 
      * @throws RemoteException
      */
-    public ResilientWeatherServiceClientImplementation () throws RemoteException
+    public ResilientWeatherServiceClientImplementation ( String selectedProvince , String selectedCity ) throws RemoteException
     {
         super () ;
+        this.province = selectedProvince;
+        this.city     = selectedCity;
     }
 
     /**
@@ -31,5 +38,22 @@ public class ResilientWeatherServiceClientImplementation extends UnicastRemoteOb
         System.out.println ( message ) ;
         return message ;
     }
-
+    
+    /**
+     * 
+     * @param newProvince
+     */
+    public void setProvince ( String newProvince )
+    {
+        province = newProvince;
+    }
+    
+    /**
+     * 
+     * @param newCity
+     */
+    public void setCity ( String newCity )
+    {
+        city = newCity;
+    }
 }

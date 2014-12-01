@@ -66,17 +66,19 @@ public class ResilientWeatherServiceClient
             Document doc = convertStringToDocument(sendGet());
             
             // Find and initialize the hello server interface for registering for callback
-            ResilientWeatherServiceServerInterface helloServerCaller = ( ResilientWeatherServiceServerInterface ) registry.lookup ( "ResilientWeatherServiceServerInterface" ) ;
-            System.out.println ( "Found Hello Callback Server!" ) ;
+            ResilientWeatherServiceServerInterface resilientWeatherServiceServerCaller = ( ResilientWeatherServiceServerInterface ) registry.lookup ( "ResilientWeatherServiceServerInterface" ) ;
+            System.out.println ( "Found Resilient Weather Service Callback Server!" ) ;
             
             // Get a response from the server
-            System.out.println ( "Server responded with: " + helloServerCaller.sayHello () ) ;
+            System.out.println ( "Server responded with: " + resilientWeatherServiceServerCaller.sayHello () ) ;
             
             // Initialize the client object for call back
-            ResilientWeatherServiceClientInterface clientCallBack = new ResilientWeatherServiceClientImplementation () ;
+            ResilientWeatherServiceClientInterface resilientWeatherServiceClientCallBack = new ResilientWeatherServiceClientImplementation (resilientWeatherServiceClientUserInterface.selectedProvince, 
+                                                                                                                     resilientWeatherServiceClientUserInterface.selectedCity
+                                                                                                                    ) ;
 
             // register the client object for a callback 
-            helloServerCaller.registerForCallback ( clientCallBack ) ;
+            resilientWeatherServiceServerCaller.registerForCallback ( resilientWeatherServiceClientCallBack ) ;
             System.out.println ( "Client registered with server for callback." ) ;
             
             // Sleep for the amount of time to keep the client registered for.
@@ -84,7 +86,7 @@ public class ResilientWeatherServiceClient
             System.out.println ( "Stay Registered Timeout of: " + registeredTimeout + " seconds reached." ) ;
             
             // Perform the client unregister for classBack once the time out has exceeded. successfully 
-            helloServerCaller.unregisterForCallback ( clientCallBack ) ;
+            resilientWeatherServiceServerCaller.unregisterForCallback ( resilientWeatherServiceClientCallBack ) ;
             System.out.println ( "Client Successfully Unregistered from callback." ) ;
             
         }

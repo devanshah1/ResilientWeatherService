@@ -31,9 +31,17 @@ public class ResilientWeatherServiceClientUI extends JFrame
     // Default serialization ID
     private static final long serialVersionUID = 1L;
     
+    /**
+     *  Make the Client UI keep track of the Resilient Weather Service Server Interface
+     *  so that can register and unregister when needed. Also keep track of the the 
+     *  clients call back object so can send it to the server to verify when needed.
+     */
+    public ResilientWeatherServiceServerInterface resilientWeatherServiceServerCaller;
+    public ResilientWeatherServiceClientInterface resilientWeatherServiceClientCallBack;
+    
     // Variable deceleration
-    public static String selectedProvince = "Ontario";
-    public static String selectedCity = "Oshawa";
+    public String selectedProvince = "Ontario";
+    public String selectedCity = "Oshawa";
     
     // Province and Cities Array deceleration
     public static String[] supportedProvinces = new String[] { "Ontario" };
@@ -328,5 +336,25 @@ public class ResilientWeatherServiceClientUI extends JFrame
         verticalWeatherOptionsBar.add(selectFeeds);
         verticalWeatherOptionsBar.add(selectCurrentWeather);
         verticalWeatherOptionsBar.add(selectSettings);
+    }
+
+    /**
+     * This function is used to set the resilientWeatherServiceServerCaller.
+     * @param resilientWeatherServiceServerCaller - the server caller object
+     */
+    public void setResilientWeatherServiceServerCaller ( ResilientWeatherServiceServerInterface resilientWeatherServiceServerCaller )
+    {
+        // Set resilientWeatherServiceServerCaller
+        this.resilientWeatherServiceServerCaller = resilientWeatherServiceServerCaller;
+    }
+    
+    /**
+     * This function is used to set the resilientWeatherServiceClientCallBack.
+     * @param resilientWeatherServiceClientCallBack - the client call back object
+     */
+    public void setResilientWeatherServiceClientCallBack ( ResilientWeatherServiceClientInterface resilientWeatherServiceClientCallBack )
+    {
+        // Set resilientWeatherServiceClientCallBack
+        this.resilientWeatherServiceClientCallBack = resilientWeatherServiceClientCallBack;
     }
 }
