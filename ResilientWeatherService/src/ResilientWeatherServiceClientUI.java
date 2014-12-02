@@ -6,7 +6,6 @@ import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.rmi.RemoteException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -45,8 +44,8 @@ public class ResilientWeatherServiceClientUI extends JFrame
     public String selectedCity = "Oshawa";
     
     // Province and Cities Array deceleration
-    public static String[] supportedProvinces = new String[] { "Ontario" };
-    public static String[] supportedCities = new String[] { "Oshawa", "Vaughan" };
+    public static String[] supportedProvinces = new String[] { "Ontario", "Manitoba" };
+    public static String[] supportedCities = new String[] { "Oshawa", "Vaughan", "Winnipeg" };
     
     // Swing components used to build the Resilient Weather Service Client UI
     public static JComboBox<String> supportedProvincesList;  // Used to construct a drop-down box for provinces

@@ -10,12 +10,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Vector;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-
-import org.w3c.dom.Document;
-
 /**
  * This class contains the methods implementation that are defined in HelloServerInterface. 
  * Also contains one extra function that is used to perform the call back.
@@ -33,12 +27,14 @@ public class ResilientWeatherServiceServerImplementation extends UnicastRemoteOb
     public static Map<String, String> supportedProvinces = new HashMap<String, String>();
     static {
         supportedProvinces.put("ON", "Ontario");
+        supportedProvinces.put ( "MB", "Manitoba" );
     }
 
     public static Map<String, String> supportedCities = new HashMap<String, String>();
     static {
         supportedCities.put("Oshawa", "on-117");
         supportedCities.put("Vaughan", "on-64");
+        supportedCities.put ( "Winnipeg", "mb-38" );
     }
     
     /*
@@ -75,23 +71,21 @@ public class ResilientWeatherServiceServerImplementation extends UnicastRemoteOb
      * Handles not registering the same client twice. ( if the client calls registerForCallback 
      * with the same clientCallbackObject.
      */
-    public synchronized void registerForCallback ( ResilientWeatherServiceClientInterface clientCallbackObject )
+    public synchronized void registerForCallback ( ResilientWeatherServiceClientInterface resilientWeatherServiceClientCallbackObject )
     {
        /*
         *  Only register the client if the client call back object does not exist.
         *  This is to make sure that the same client is not trying to register twice.
         */        
-       if ( ! ( registeredClients.contains ( clientCallbackObject ) ) )
+       if ( ! ( registeredClients.contains ( resilientWeatherServiceClientCallbackObject ) ) )
        {
           // Once it is determine that the client registering is new add the client to the vector
-          registeredClients.addElement ( clientCallbackObject ) ;
+          registeredClients.addElement ( resilientWeatherServiceClientCallbackObject ) ;
           System.out.println ( "Registered new client" ) ;
           
           try
           {
-             //sendGet ( supportedCities.get ( clientCallbackObject.getCity() ) );
-             //Document xmlweatherFeedsdoc = parseXmlFile();
-              doCallbacks ( sendGet ( supportedCities.get ( clientCallbackObject.getCity() ) ) );
+              doCallbacks ( getFeedsFromWeatherWebsite ( supportedCities.get ( resilientWeatherServiceClientCallbackObject.getCity() ) ) );
           }
           // Catch the exception and provide the necessary information to the user.
           catch ( Exception e ) { System.out.println ( "Exception: " + e.getMessage () ) ; e.printStackTrace () ; }
@@ -104,10 +98,10 @@ public class ResilientWeatherServiceServerImplementation extends UnicastRemoteOb
     /**
      * This function is used to unregister the client from the callback list.
      */
-    public synchronized void unregisterForCallback ( ResilientWeatherServiceClientInterface clientCallbackObject )
+    public synchronized void unregisterForCallback ( ResilientWeatherServiceClientInterface resilientWeatherServiceClientCallbackObject )
     {
        // Remove the client from the vector of registered clients.
-       if ( registeredClients.removeElement ( clientCallbackObject ) )
+       if ( registeredClients.removeElement ( resilientWeatherServiceClientCallbackObject ) )
        {
           System.out.println ( "Client Unregistered Successfully" ) ;
        }
@@ -162,7 +156,7 @@ public class ResilientWeatherServiceServerImplementation extends UnicastRemoteOb
      * @return
      * @throws Exception
      */
-    public String sendGet ( String cityCode )
+    public String getFeedsFromWeatherWebsite ( String cityCode )
     {
         // Build the URL to grab the data for
         String weatherURLPath = "http://weather.gc.ca/rss/city/" + cityCode + "_e.xml";

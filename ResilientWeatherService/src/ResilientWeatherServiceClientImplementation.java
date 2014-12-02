@@ -63,6 +63,7 @@ public class ResilientWeatherServiceClientImplementation extends UnicastRemoteOb
     @Override
     public void setFeeds ( String feeds ) throws RemoteException
     {
+        // Split the feed input by lines to represent it in the client user interface
         String[] feedsParsed = feeds.split("\n");
         
         // Loop through the array and remove the xml tags <title> and <\title>
@@ -73,7 +74,7 @@ public class ResilientWeatherServiceClientImplementation extends UnicastRemoteOb
             
             if ( feedsParsed[i].contains ( "xB0;" )) 
             {
-                feedsParsed[i] = feedsParsed[i].substring(left+7, right+7);
+                feedsParsed[i] = feedsParsed[i].substring(left+7, right-7) + "\u00b0" + "C";
             }
             else
             {
