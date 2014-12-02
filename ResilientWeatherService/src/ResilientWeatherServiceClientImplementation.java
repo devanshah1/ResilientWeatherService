@@ -81,4 +81,10 @@ public class ResilientWeatherServiceClientImplementation extends UnicastRemoteOb
         // TODO Auto-generated method stub
         
     }
+
+    @Override
+    public String getCity ()
+    {
+        return city;
+    }
 }

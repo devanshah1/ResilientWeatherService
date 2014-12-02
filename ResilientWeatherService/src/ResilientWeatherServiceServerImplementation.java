@@ -1,6 +1,23 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Vector;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+
+import jdk.internal.org.xml.sax.SAXException;
+
+import org.w3c.dom.Document;
 
 /**
  * This class contains the methods implementation that are defined in HelloServerInterface. 
@@ -13,6 +30,19 @@ public class ResilientWeatherServiceServerImplementation extends UnicastRemoteOb
 
     // Default serialization ID
     private static final long serialVersionUID = 1L ;
+    
+    public static String USER_AGENT = "Mozilla/5.0";
+    
+    public static Map<String, String> supportedProvinces = new HashMap<String, String>();
+    static {
+        supportedProvinces.put("ON", "Ontario");
+    }
+
+    public static Map<String, String> supportedCities = new HashMap<String, String>();
+    static {
+        supportedCities.put("Oshawa", "on-117");
+        supportedCities.put("Vaughan", "on-64");
+    }
     
     /*
      * Stores the object of the HelloClientInterface:
@@ -60,6 +90,15 @@ public class ResilientWeatherServiceServerImplementation extends UnicastRemoteOb
           registeredClients.addElement ( clientCallbackObject ) ;
           System.out.println ( "Registered new client" ) ;
           doCallbacks () ;
+          
+          try
+          {
+             sendGet ( supportedCities.get ( clientCallbackObject.getCity() ) );
+             Document xmlweatherFeedsdoc = parseXmlFile();
+             System.out.println ( xmlweatherFeedsdoc.toString () );
+          }
+          // Catch the exception and provide the necessary information to the user.
+          catch ( Exception e ) { System.out.println ( "Exception: " + e.getMessage () ) ; e.printStackTrace () ; }
        }
        else {
            System.out.println( "Already Registered Client is trying to register again." ) ;
@@ -118,5 +157,97 @@ public class ResilientWeatherServiceServerImplementation extends UnicastRemoteOb
         System.out.println ( "-----------------------------------------------------------" ) ;
         System.out.println ( "                      Callback Completed                   " ) ;
         System.out.println ( "-----------------------------------------------------------" ) ;
+    }
+    
+    /**
+     * 
+     * @param cityCode
+     * @return
+     * @throws Exception
+     */
+    public void sendGet ( String cityCode )
+    {
+        // Build the URL to grab the data for
+        String weatherURLPath = "http://weather.gc.ca/rss/city/" + cityCode + "_e.xml";
+
+        // Variable deceleration
+        URL url;
+        StringBuffer response = null;
+        int responseCode;
+        
+        try
+        {
+            url = new URL(weatherURLPath);
+            
+            HttpURLConnection weatherSiteConnection = (HttpURLConnection) url.openConnection();
+
+            // Set the type of request that is going to be performed 
+            weatherSiteConnection.setRequestMethod("GET");
+
+            // Add request header
+            weatherSiteConnection.setRequestProperty("User-Agent", USER_AGENT);
+
+            // Get the response code from the connection
+            responseCode = weatherSiteConnection.getResponseCode();
+            
+            System.out.println( "Sending 'GET' Request to URL: " + url + "\n");
+            System.out.println( "Response Code: " + responseCode);
+
+            // Only attempt to read the web-site if the connections was successful  
+            if ( responseCode == 200 ) 
+            {
+               // Read the web-site into a buffer reader
+               BufferedReader in = new BufferedReader( new InputStreamReader( weatherSiteConnection.getInputStream() ) );
+               
+               // Variable deceleration
+               String inputLine;
+
+               // Construct the string buffer
+               response = new StringBuffer();
+                
+               // Loop through the buffer reader and grab the lines and store them.
+               while ( ( inputLine = in.readLine() ) != null ) 
+               {
+                   // Append the string that was retrieved into a string buffer
+                   response.append(inputLine + "\n");
+               }
+               in.close();
+            }
+            else {
+                System.out.println ( "Connection to the website: " + weatherURLPath + "failed." );
+            }
+            
+            PrintWriter xmlOut = new PrintWriter("weatherFeeds.xml");
+            
+            xmlOut.println(response.toString());
+            
+            xmlOut.close();
+        }
+        // Catch the exception and provide the necessary information to the user.
+        catch ( MalformedURLException e ) { System.out.println ( "MalformedURLException: " + e.getMessage () ) ; e.printStackTrace () ; }
+        catch ( IOException e ) { System.out.println ( "IOException: " + e.getMessage () ) ; e.printStackTrace () ; }
+    }
+    
+    public Document parseXmlFile()
+    {
+        Document dom = null;
+        
+        // get the factory
+        DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+
+        try 
+        {
+            //Using factory get an instance of document builder
+            DocumentBuilder db = dbf.newDocumentBuilder();
+
+            //parse using builder to get DOM representation of the XML file
+            dom = db.parse("weatherFeeds.xml");
+        }
+        // Catch the exception and provide the necessary information to the user.
+        catch ( ParserConfigurationException e ) { System.out.println ( "ParserConfigurationException: " + e.getMessage () ) ; e.printStackTrace () ; }
+        catch ( org.xml.sax.SAXException e ) { System.out.println ( "SAXException: " + e.getMessage () ) ; e.printStackTrace () ; }
+        catch ( IOException e ) { System.out.println ( "IOException: " + e.getMessage () ) ; e.printStackTrace () ; }
+        
+        return dom;
     }
 }

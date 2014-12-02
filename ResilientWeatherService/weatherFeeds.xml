@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en-ca">
+ 
+<!--
+This is a data file that is meant to be read by RSS readers or aggregators.
+See http://www.ec.gc.ca/meteo-weather/default.asp?lang=En&n=11703207-1 to learn more about our RSS service.
+-->
+
+ <title>Oshawa - Weather - Environment Canada</title>
+ <link rel="related" href="http://www.weather.gc.ca/city/pages/on-117_metric_e.html" type="text/html"/>
+ <link rel="self" href="http://www.weather.gc.ca/rss/city/on-117_e.xml" type="application/atom+xml"/>
+ <link rel="alternate" hreflang="fr-ca" href="http://www.meteo.gc.ca/rss/city/on-117_f.xml" type="application/atom+xml"/>
+ <author>
+ <name>Environment Canada</name>
+ <uri>http://www.weather.gc.ca</uri>
+ </author>
+ <updated>2014-12-02T05:02:12Z</updated>
+ <id>tag:weather.gc.ca,2013-04-16:20141202050212</id>
+ <logo>http://www.weather.gc.ca/build/theme-gcwu-fegc/images/wmms.gif</logo>
+ <icon>http://www.weather.gc.ca/build/theme-gcwu-fegc/images/favicon.ico</icon>
+ <rights>Copyright 2014, Environment Canada</rights>
+ <entry>
+ <title>No watches or warnings in effect, Oshawa</title>
+ <link type="text/html" href="http://www.weather.gc.ca/warnings/index_e.html"/>
+ <updated>2014-11-25T08:00:00Z</updated>
+ <published>2014-11-25T08:00:00Z</published>
+ <category term="Warnings and Watches"/>
+ <summary type="html">No watches or warnings in effect.</summary>
+ <id>tag:weather.gc.ca,2013-04-16:on-117_w1:20141125080000</id>
+ </entry>
+ <entry>
+ <title>Current Conditions: Clear, -7.6&#xB0;C</title>
+ <link type="text/html" href="http://www.weather.gc.ca/city/pages/on-117_metric_e.html"/>
+ <updated>2014-12-02T05:00:00Z</updated>
+ <published>2014-12-02T05:00:00Z</published>
+ <category term="Current Conditions"/>
+ <summary type="html"><![CDATA[<b>Observed at:</b> Oshawa Municipal Airport 12:00 AM EST Tuesday 02 December 2014 <br/>
+<b>Condition:</b> Clear <br/>
+<b>Temperature:</b> -7.6&deg;C <br/>
+<b>Pressure:</b> 103.9 kPa <br/>
+<b>Visibility:</b> 16.1 km<br/>
+<b>Humidity:</b> 61 %<br/>
+<b>Wind Chill:</b> -14 <br/>
+<b>Dewpoint:</b> -13.9&deg;C <br/>
+<b>Wind:</b> NNE 17 km/h<br/>
+<b>Air Quality Health Index:</b> 2 <br/>
+]]></summary>
+ <id>tag:weather.gc.ca,2013-04-16:on-117_cc:20141202050000</id>
+ </entry>
+ <entry>
+ <title>Monday night: Chance of flurries. Low minus 12. POP 30%</title>
+ <link type="text/html" href="http://www.weather.gc.ca/city/pages/on-117_metric_e.html"/>
+ <updated>2014-12-01T20:30:00Z</updated>
+ <published>2014-12-01T20:30:00Z</published>
+ <category term="Weather Forecasts"/>
+ <summary type="html">Partly cloudy. 30 percent chance of flurries early this evening. Clearing late this evening. Wind northwest 30 km/h gusting to 50 becoming light late this evening. Low minus 12. Forecast issued 3:30 PM EST Monday 01 December 2014</summary>
+ <id>tag:weather.gc.ca,2013-04-16:on-117_fc1:20141201203000</id>
+ </entry>
+ <entry>
+ <title>Tuesday: Chance of flurries. High zero. POP 60%</title>
+ <link type="text/html" href="http://www.weather.gc.ca/city/pages/on-117_metric_e.html"/>
+ <updated>2014-12-01T20:30:00Z</updated>
+ <published>2014-12-01T20:30:00Z</published>
+ <category term="Weather Forecasts"/>
+ <summary type="html">Increasing cloudiness early in the morning. 60 percent chance of flurries. Wind becoming southeast 20 km/h in the morning. High zero. Forecast issued 3:30 PM EST Monday 01 December 2014</summary>
+ <id>tag:weather.gc.ca,2013-04-16:on-117_fc2:20141201203000</id>
+ </entry>
+ <entry>
+ <title>Tuesday night: Periods of snow mixed with rain. Temperature rising to plus 2 by morning.</title>
+ <link type="text/html" href="http://www.weather.gc.ca/city/pages/on-117_metric_e.html"/>
+ <updated>2014-12-01T20:30:00Z</updated>
+ <published>2014-12-01T20:30:00Z</published>
+ <category term="Weather Forecasts"/>
+ <summary type="html">Periods of snow mixed with rain. Wind southeast 20 km/h becoming southwest 30 gusting to 50 after midnight. Temperature rising to plus 2 by morning. Forecast issued 3:30 PM EST Monday 01 December 2014</summary>
+ <id>tag:weather.gc.ca,2013-04-16:on-117_fc3:20141201203000</id>
+ </entry>
+ <entry>
+ <title>Wednesday: Chance of flurries. High plus 2. POP 60%</title>
+ <link type="text/html" href="http://www.weather.gc.ca/city/pages/on-117_metric_e.html"/>
+ <updated>2014-12-01T20:30:00Z</updated>
+ <published>2014-12-01T20:30:00Z</published>
+ <category term="Weather Forecasts"/>
+ <summary type="html">Cloudy with 60 percent chance of flurries. High plus 2. Forecast issued 3:30 PM EST Monday 01 December 2014</summary>
+ <id>tag:weather.gc.ca,2013-04-16:on-117_fc4:20141201203000</id>
+ </entry>
+ <entry>
+ <title>Thursday: A mix of sun and cloud. Low minus 3. High minus 1.</title>
+ <link type="text/html" href="http://www.weather.gc.ca/city/pages/on-117_metric_e.html"/>
+ <updated>2014-12-01T20:30:00Z</updated>
+ <published>2014-12-01T20:30:00Z</published>
+ <category term="Weather Forecasts"/>
+ <summary type="html">A mix of sun and cloud. Low minus 3. High minus 1. Forecast issued 3:30 PM EST Monday 01 December 2014</summary>
+ <id>tag:weather.gc.ca,2013-04-16:on-117_fc5:20141201203000</id>
+ </entry>
+ <entry>
+ <title>Friday: A mix of sun and cloud. Low minus 7. High plus 2.</title>
+ <link type="text/html" href="http://www.weather.gc.ca/city/pages/on-117_metric_e.html"/>
+ <updated>2014-12-01T20:30:00Z</updated>
+ <published>2014-12-01T20:30:00Z</published>
+ <category term="Weather Forecasts"/>
+ <summary type="html">A mix of sun and cloud. Low minus 7. High plus 2. Forecast issued 3:30 PM EST Monday 01 December 2014</summary>
+ <id>tag:weather.gc.ca,2013-04-16:on-117_fc6:20141201203000</id>
+ </entry>
+ <entry>
+ <title>Saturday: Chance of flurries or rain showers. Low minus 1. High plus 3. POP 30%</title>
+ <link type="text/html" href="http://www.weather.gc.ca/city/pages/on-117_metric_e.html"/>
+ <updated>2014-12-01T20:30:00Z</updated>
+ <published>2014-12-01T20:30:00Z</published>
+ <category term="Weather Forecasts"/>
+ <summary type="html">Cloudy with 30 percent chance of flurries or rain showers. Low minus 1. High plus 3. Forecast issued 3:30 PM EST Monday 01 December 2014</summary>
+ <id>tag:weather.gc.ca,2013-04-16:on-117_fc7:20141201203000</id>
+ </entry>
+ <entry>
+ <title>Sunday: A mix of sun and cloud. Low zero. High plus 3.</title>
+ <link type="text/html" href="http://www.weather.gc.ca/city/pages/on-117_metric_e.html"/>
+ <updated>2014-12-01T20:30:00Z</updated>
+ <published>2014-12-01T20:30:00Z</published>
+ <category term="Weather Forecasts"/>
+ <summary type="html">A mix of sun and cloud. Low zero. High plus 3. Forecast issued 3:30 PM EST Monday 01 December 2014</summary>
+ <id>tag:weather.gc.ca,2013-04-16:on-117_fc8:20141201203000</id>
+ </entry>
+ </feed>
+
+

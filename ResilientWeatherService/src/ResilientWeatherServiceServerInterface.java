@@ -39,4 +39,11 @@ public interface ResilientWeatherServiceServerInterface extends Remote
      */
     public void unregisterForCallback ( ResilientWeatherServiceClientInterface clientCallbackObject ) throws RemoteException ;
     
+    /**
+     * 
+     * @param cityCode
+     * @return
+     * @throws RemoteException
+     */
+    public void sendGet ( String cityCode ) throws RemoteException ;
 }
