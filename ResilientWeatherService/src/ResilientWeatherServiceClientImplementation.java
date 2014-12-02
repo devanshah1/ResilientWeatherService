@@ -3,7 +3,7 @@ import java.rmi.server.UnicastRemoteObject;
 
 /**
  * This class contains the method implementation that are defined in HelloClientInterface.
- * @author Devan Shah 100428864
+ * @author Devan Shah 100428864 Miguel Arindaeng 100394094
  *
  */
 public class ResilientWeatherServiceClientImplementation extends UnicastRemoteObject implements ResilientWeatherServiceClientInterface
@@ -14,18 +14,21 @@ public class ResilientWeatherServiceClientImplementation extends UnicastRemoteOb
 
     public String province;
     public String city;
+    public ResilientWeatherServiceClientUI resilientWeatherServiceClientUserInterface;
     
     /**
      * Constructor of the class.
      * @param selectedCity 
      * @param selectedProvince 
+     * @param resilientWeatherServiceClientUserInterface 
      * @throws RemoteException
      */
-    public ResilientWeatherServiceClientImplementation ( String selectedProvince , String selectedCity ) throws RemoteException
+    public ResilientWeatherServiceClientImplementation ( String selectedProvince , String selectedCity, ResilientWeatherServiceClientUI resilientWeatherServiceClientUserInterface  ) throws RemoteException
     {
         super () ;
-        this.province = selectedProvince;
-        this.city     = selectedCity;
+        this.province                                   = selectedProvince;
+        this.city                                       = selectedCity;
+        this.resilientWeatherServiceClientUserInterface = resilientWeatherServiceClientUserInterface;
     }
 
     /**
@@ -55,5 +58,27 @@ public class ResilientWeatherServiceClientImplementation extends UnicastRemoteOb
     public void setCity ( String newCity )
     {
         city = newCity;
+    }
+
+    @Override
+    public void setFeeds () throws RemoteException
+    {
+        resilientWeatherServiceClientUserInterface.weatherWatchesAndWarningsLabel.setText ( "WARNING" );
+        resilientWeatherServiceClientUserInterface.currentWeatherConditionsLabel.setText ( "Current Weather Condition" );
+        resilientWeatherServiceClientUserInterface.currentDayWeatherLabel.setText ( "Current Day Weather" );
+        resilientWeatherServiceClientUserInterface.currentDayNightWeatherLabel.setText ( "Current Day Night Weather" );
+        resilientWeatherServiceClientUserInterface.nextFirstDayWeatherLabel.setText ( "Firsy Day Weather " );
+        resilientWeatherServiceClientUserInterface.nextSecondDayWeatherLabel.setText ( "Second Day Weather" );
+        resilientWeatherServiceClientUserInterface.nextThirdDayWeatherLabel.setText ( "Third Day Weather" );
+        resilientWeatherServiceClientUserInterface.nextForthDayWeatherLabel.setText ( "Forth Day Weather" );
+        resilientWeatherServiceClientUserInterface.nextFifthDayWeatherLabel.setText ( "Fifth Day Weather" );
+        resilientWeatherServiceClientUserInterface.nextSixthDayWeatherLabel.setText ( "Sixed Day Weather" );  
+    }
+
+    @Override
+    public void setCurrentWeather () throws RemoteException
+    {
+        // TODO Auto-generated method stub
+        
     }
 }

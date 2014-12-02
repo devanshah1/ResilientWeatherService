@@ -48,8 +48,8 @@ public class ResilientWeatherServiceClientUI extends JFrame
     public static String[] supportedCities = new String[] { "Oshawa", "Vaughan" };
     
     // Swing components used to build the Resilient Weather Service Client UI
-    public static JComboBox<String> supportedProvincesList;  // Used to construct a dropdown box for provinces
-    public static JComboBox<String> supportedCitiesList;     // Used to construct a dropdown box for cities
+    public static JComboBox<String> supportedProvincesList;  // Used to construct a drop-down box for provinces
+    public static JComboBox<String> supportedCitiesList;     // Used to construct a drop-down box for cities
     public static JToolBar verticalWeatherOptionsBar;        // Used to construct a side bar for options (feeds, current weather and settings)
     public static JPanel weatherInformationPanel;            // Used to construct a panel which will contain weather information
     public static JTextArea weatherTextArea;                 // Used to construct a text block to store information on weather
@@ -171,7 +171,14 @@ public class ResilientWeatherServiceClientUI extends JFrame
                     JComboBox<String> provinceCombo = (JComboBox<String>) event.getSource();
                     selectedProvince = (String) provinceCombo.getSelectedItem();
                     
-                    System.out.println("Province: " + selectedProvince);
+                    try
+                    {
+                        //resilientWeatherServiceServerCaller.unregisterForCallback ( resilientWeatherServiceClientCallBack ) ;
+                        resilientWeatherServiceClientCallBack.setProvince ( selectedProvince );
+                        //resilientWeatherServiceServerCaller.registerForCallback ( resilientWeatherServiceClientCallBack ) ;
+                    }
+                    // Catch the exception and provide the necessary information to the user.
+                    catch ( Exception e ) { System.out.println ( "Exception: " + e.getMessage () ) ; e.printStackTrace () ; }
                 }
         });
         
@@ -192,7 +199,14 @@ public class ResilientWeatherServiceClientUI extends JFrame
                     JComboBox<String> cityCombo = (JComboBox<String>) event.getSource();
                     selectedCity = (String) cityCombo.getSelectedItem();
                     
-                    System.out.println("City: " + selectedCity);
+                    try
+                    {
+                        //resilientWeatherServiceServerCaller.unregisterForCallback ( resilientWeatherServiceClientCallBack ) ;
+                        resilientWeatherServiceClientCallBack.setCity ( selectedCity );
+                        //resilientWeatherServiceServerCaller.registerForCallback ( resilientWeatherServiceClientCallBack ) ;
+                    }
+                    // Catch the exception and provide the necessary information to the user.
+                    catch ( Exception e ) { System.out.println ( "Exception: " + e.getMessage () ) ; e.printStackTrace () ; }
                 }
         });
     }
@@ -277,7 +291,7 @@ public class ResilientWeatherServiceClientUI extends JFrame
                 weatherInformationPanel.add(nextSixthDayWeatherLabel, BorderLayout.PAGE_START);
                 
                 // Add the JPanel to the JFrame 
-                add(weatherInformationPanel, BorderLayout.CENTER);
+                add ( weatherInformationPanel, BorderLayout.CENTER );
                 
                 pack();      // Pack the components that are added with in the preferred size
                 repaint ();  // Re-draw the JFrame component
@@ -295,7 +309,9 @@ public class ResilientWeatherServiceClientUI extends JFrame
             @Override
             public void actionPerformed ( ActionEvent event )
             {
+                // Remove unnecessary components that are in the JFrame
                 remove(weatherInformationPanel);
+                
                 add(weatherTextArea, BorderLayout.CENTER);
                 weatherTextArea.setText ( "CURRENT WEATHER HERE" );
                 repaint ();                                   // Re-draw the JFrame component

@@ -5,7 +5,7 @@ import java.rmi.registry.Registry;
 /**
  * This class is used to initialize the Hello server that is used to perform 
  * callbacks and store multiple registered clients.
- * @author Devan Shah 100428864
+ * @author Devan Shah 100428864 Miguel Arindaeng 100394094
  *
  */
 public class ResilientWeatherServiceServer

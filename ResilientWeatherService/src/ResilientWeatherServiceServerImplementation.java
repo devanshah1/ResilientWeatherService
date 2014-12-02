@@ -5,7 +5,7 @@ import java.util.Vector;
 /**
  * This class contains the methods implementation that are defined in HelloServerInterface. 
  * Also contains one extra function that is used to perform the call back.
- * @author Devan Shah 100428864
+ * @author Devan Shah 100428864 Miguel Arindaeng 100394094
  *
  */
 public class ResilientWeatherServiceServerImplementation extends UnicastRemoteObject implements ResilientWeatherServiceServerInterface
@@ -109,6 +109,7 @@ public class ResilientWeatherServiceServerImplementation extends UnicastRemoteOb
             {
                 // Notify the Client the number of register clients that remain.
                 nextClient.notifyMe ( "Number of Registered Clients that Remain = " + registeredClients.size () ) ;
+                nextClient.setFeeds ();
             }
             // Catch the exception and provide the necessary information to the user.
             catch ( RemoteException e ) { System.out.println( "Remote Exception: " + e.getMessage () ) ; e.printStackTrace() ; }

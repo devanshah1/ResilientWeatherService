@@ -4,8 +4,8 @@ import java.rmi.RemoteException;
 /**
  * The HelloServerInterface contains methods that can be invoked to
  * register or unregister for callbacks. This interface extends Remote 
- * so that the functions can be accessed remotly.
- * @author Devan Shah 100428864
+ * so that the functions can be accessed remotely.
+ * @author Devan Shah 100428864 Miguel Arindaeng 100394094
  *
  */
 public interface ResilientWeatherServiceServerInterface extends Remote
