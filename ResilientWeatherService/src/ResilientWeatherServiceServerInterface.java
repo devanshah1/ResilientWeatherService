@@ -45,5 +45,5 @@ public interface ResilientWeatherServiceServerInterface extends Remote
      * @return
      * @throws RemoteException
      */
-    public void sendGet ( String cityCode ) throws RemoteException ;
+    public String sendGet ( String cityCode ) throws RemoteException ;
 }

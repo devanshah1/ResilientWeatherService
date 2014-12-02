@@ -37,9 +37,10 @@ public interface ResilientWeatherServiceClientInterface extends Remote
     /**
      * This function is used to set the feeds in the Resilient Weather Service
      * user interface.
+     * @param feeds 
      * @throws RemoteException
      */
-    public void setFeeds () throws RemoteException ;
+    public void setFeeds (String feeds ) throws RemoteException ;
     
     /**
      * 

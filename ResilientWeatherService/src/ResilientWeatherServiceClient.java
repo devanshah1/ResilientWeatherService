@@ -56,7 +56,7 @@ public class ResilientWeatherServiceClient
             resilientWeatherServiceServerCaller.registerForCallback ( resilientWeatherServiceClientCallBack ) ;
             System.out.println ( "Client registered with server for callback." ) ;
             
-            //resilientWeatherServiceClientUserInterface.setResilientWeatherServiceClientCallBack ( resilientWeatherServiceClientCallBack );
+            resilientWeatherServiceClientUserInterface.setResilientWeatherServiceClientCallBack ( resilientWeatherServiceClientCallBack );
             resilientWeatherServiceClientUserInterface.setResilientWeatherServiceServerCaller ( resilientWeatherServiceServerCaller );
             
 //            // Sleep for the amount of time to keep the client registered for.

@@ -61,18 +61,36 @@ public class ResilientWeatherServiceClientImplementation extends UnicastRemoteOb
     }
 
     @Override
-    public void setFeeds () throws RemoteException
+    public void setFeeds ( String feeds ) throws RemoteException
     {
-        resilientWeatherServiceClientUserInterface.weatherWatchesAndWarningsLabel.setText ( "WARNING" );
-        resilientWeatherServiceClientUserInterface.currentWeatherConditionsLabel.setText ( "Current Weather Condition" );
-        resilientWeatherServiceClientUserInterface.currentDayWeatherLabel.setText ( "Current Day Weather" );
-        resilientWeatherServiceClientUserInterface.currentDayNightWeatherLabel.setText ( "Current Day Night Weather" );
-        resilientWeatherServiceClientUserInterface.nextFirstDayWeatherLabel.setText ( "Firsy Day Weather " );
-        resilientWeatherServiceClientUserInterface.nextSecondDayWeatherLabel.setText ( "Second Day Weather" );
-        resilientWeatherServiceClientUserInterface.nextThirdDayWeatherLabel.setText ( "Third Day Weather" );
-        resilientWeatherServiceClientUserInterface.nextForthDayWeatherLabel.setText ( "Forth Day Weather" );
-        resilientWeatherServiceClientUserInterface.nextFifthDayWeatherLabel.setText ( "Fifth Day Weather" );
-        resilientWeatherServiceClientUserInterface.nextSixthDayWeatherLabel.setText ( "Sixed Day Weather" );  
+        String[] feedsParsed = feeds.split("\n");
+        
+        // Loop through the array and remove the xml tags <title> and <\title>
+        for ( int i = 0; i < feedsParsed.length; i++ ) 
+        {
+            int left = feedsParsed[i].indexOf("<title>");
+            int right = feedsParsed[i].indexOf("</title>"); 
+            
+            if ( feedsParsed[i].contains ( "xB0;" )) 
+            {
+                feedsParsed[i] = feedsParsed[i].substring(left+7, right+7);
+            }
+            else
+            {
+                feedsParsed[i] = feedsParsed[i].substring(left+7, right);
+            }
+        }
+        
+        resilientWeatherServiceClientUserInterface.weatherWatchesAndWarningsLabel.setText ( feedsParsed[1] );
+        resilientWeatherServiceClientUserInterface.currentWeatherConditionsLabel.setText ( feedsParsed[2] );
+        resilientWeatherServiceClientUserInterface.currentDayWeatherLabel.setText ( feedsParsed[3] );
+        resilientWeatherServiceClientUserInterface.currentDayNightWeatherLabel.setText ( feedsParsed[4] );
+        resilientWeatherServiceClientUserInterface.nextFirstDayWeatherLabel.setText ( feedsParsed[5] );
+        resilientWeatherServiceClientUserInterface.nextSecondDayWeatherLabel.setText ( feedsParsed[6] );
+        resilientWeatherServiceClientUserInterface.nextThirdDayWeatherLabel.setText ( feedsParsed[7] );
+        resilientWeatherServiceClientUserInterface.nextForthDayWeatherLabel.setText ( feedsParsed[8] );
+        resilientWeatherServiceClientUserInterface.nextFifthDayWeatherLabel.setText ( feedsParsed[9] );
+        resilientWeatherServiceClientUserInterface.nextSixthDayWeatherLabel.setText ( feedsParsed[10] );  
     }
 
     @Override

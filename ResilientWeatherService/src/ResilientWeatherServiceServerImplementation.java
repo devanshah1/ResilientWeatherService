@@ -1,7 +1,6 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.PrintWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -14,8 +13,6 @@ import java.util.Vector;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-
-import jdk.internal.org.xml.sax.SAXException;
 
 import org.w3c.dom.Document;
 
@@ -89,13 +86,12 @@ public class ResilientWeatherServiceServerImplementation extends UnicastRemoteOb
           // Once it is determine that the client registering is new add the client to the vector
           registeredClients.addElement ( clientCallbackObject ) ;
           System.out.println ( "Registered new client" ) ;
-          doCallbacks () ;
           
           try
           {
-             sendGet ( supportedCities.get ( clientCallbackObject.getCity() ) );
-             Document xmlweatherFeedsdoc = parseXmlFile();
-             System.out.println ( xmlweatherFeedsdoc.toString () );
+             //sendGet ( supportedCities.get ( clientCallbackObject.getCity() ) );
+             //Document xmlweatherFeedsdoc = parseXmlFile();
+              doCallbacks ( sendGet ( supportedCities.get ( clientCallbackObject.getCity() ) ) );
           }
           // Catch the exception and provide the necessary information to the user.
           catch ( Exception e ) { System.out.println ( "Exception: " + e.getMessage () ) ; e.printStackTrace () ; }
@@ -126,8 +122,9 @@ public class ResilientWeatherServiceServerImplementation extends UnicastRemoteOb
      * This is a private function that is used to report back to the clients that are
      * registered for callback with the number of clients that are currently registered
      * with the server.
+     * @param feeds 
      */
-    private synchronized void doCallbacks ()
+    private synchronized void doCallbacks (String feeds )
     {
         System.out.println ( "-----------------------------------------------------------" ) ;
         System.out.println ( "                      Callback Invoked                     " ) ;
@@ -148,7 +145,7 @@ public class ResilientWeatherServiceServerImplementation extends UnicastRemoteOb
             {
                 // Notify the Client the number of register clients that remain.
                 nextClient.notifyMe ( "Number of Registered Clients that Remain = " + registeredClients.size () ) ;
-                nextClient.setFeeds ();
+                nextClient.setFeeds ( feeds );
             }
             // Catch the exception and provide the necessary information to the user.
             catch ( RemoteException e ) { System.out.println( "Remote Exception: " + e.getMessage () ) ; e.printStackTrace() ; }
@@ -165,7 +162,7 @@ public class ResilientWeatherServiceServerImplementation extends UnicastRemoteOb
      * @return
      * @throws Exception
      */
-    public void sendGet ( String cityCode )
+    public String sendGet ( String cityCode )
     {
         // Build the URL to grab the data for
         String weatherURLPath = "http://weather.gc.ca/rss/city/" + cityCode + "_e.xml";
@@ -208,46 +205,23 @@ public class ResilientWeatherServiceServerImplementation extends UnicastRemoteOb
                // Loop through the buffer reader and grab the lines and store them.
                while ( ( inputLine = in.readLine() ) != null ) 
                {
-                   // Append the string that was retrieved into a string buffer
-                   response.append(inputLine + "\n");
+                   if ( inputLine.contains ( "title" ) )
+                   {
+                       // Append the string that was retrieved into a string buffer
+                       response.append(inputLine + "\n");
+                   }
                }
                in.close();
             }
             else {
                 System.out.println ( "Connection to the website: " + weatherURLPath + "failed." );
             }
-            
-            PrintWriter xmlOut = new PrintWriter("weatherFeeds.xml");
-            
-            xmlOut.println(response.toString());
-            
-            xmlOut.close();
+
         }
         // Catch the exception and provide the necessary information to the user.
         catch ( MalformedURLException e ) { System.out.println ( "MalformedURLException: " + e.getMessage () ) ; e.printStackTrace () ; }
         catch ( IOException e ) { System.out.println ( "IOException: " + e.getMessage () ) ; e.printStackTrace () ; }
-    }
-    
-    public Document parseXmlFile()
-    {
-        Document dom = null;
         
-        // get the factory
-        DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-
-        try 
-        {
-            //Using factory get an instance of document builder
-            DocumentBuilder db = dbf.newDocumentBuilder();
-
-            //parse using builder to get DOM representation of the XML file
-            dom = db.parse("weatherFeeds.xml");
-        }
-        // Catch the exception and provide the necessary information to the user.
-        catch ( ParserConfigurationException e ) { System.out.println ( "ParserConfigurationException: " + e.getMessage () ) ; e.printStackTrace () ; }
-        catch ( org.xml.sax.SAXException e ) { System.out.println ( "SAXException: " + e.getMessage () ) ; e.printStackTrace () ; }
-        catch ( IOException e ) { System.out.println ( "IOException: " + e.getMessage () ) ; e.printStackTrace () ; }
-        
-        return dom;
+        return response.toString ();
     }
 }

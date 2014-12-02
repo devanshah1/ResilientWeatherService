@@ -6,6 +6,7 @@ import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.rmi.RemoteException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -173,9 +174,9 @@ public class ResilientWeatherServiceClientUI extends JFrame
                     
                     try
                     {
-                        //resilientWeatherServiceServerCaller.unregisterForCallback ( resilientWeatherServiceClientCallBack ) ;
+                        resilientWeatherServiceServerCaller.unregisterForCallback ( resilientWeatherServiceClientCallBack ) ;
                         resilientWeatherServiceClientCallBack.setProvince ( selectedProvince );
-                        //resilientWeatherServiceServerCaller.registerForCallback ( resilientWeatherServiceClientCallBack ) ;
+                        resilientWeatherServiceServerCaller.registerForCallback ( resilientWeatherServiceClientCallBack ) ;
                     }
                     // Catch the exception and provide the necessary information to the user.
                     catch ( Exception e ) { System.out.println ( "Exception: " + e.getMessage () ) ; e.printStackTrace () ; }
@@ -201,9 +202,9 @@ public class ResilientWeatherServiceClientUI extends JFrame
                     
                     try
                     {
-                        //resilientWeatherServiceServerCaller.unregisterForCallback ( resilientWeatherServiceClientCallBack ) ;
+                        resilientWeatherServiceServerCaller.unregisterForCallback ( resilientWeatherServiceClientCallBack ) ;
                         resilientWeatherServiceClientCallBack.setCity ( selectedCity );
-                        //resilientWeatherServiceServerCaller.registerForCallback ( resilientWeatherServiceClientCallBack ) ;
+                        resilientWeatherServiceServerCaller.registerForCallback ( resilientWeatherServiceClientCallBack ) ;
                     }
                     // Catch the exception and provide the necessary information to the user.
                     catch ( Exception e ) { System.out.println ( "Exception: " + e.getMessage () ) ; e.printStackTrace () ; }
@@ -267,6 +268,14 @@ public class ResilientWeatherServiceClientUI extends JFrame
             @Override
             public void actionPerformed ( ActionEvent event )
             {
+                try
+                {
+                    resilientWeatherServiceServerCaller.unregisterForCallback ( resilientWeatherServiceClientCallBack ) ;
+                    resilientWeatherServiceServerCaller.registerForCallback ( resilientWeatherServiceClientCallBack ) ;
+                }
+                // Catch the exception and provide the necessary information to the user.
+                catch ( Exception e ) { System.out.println ( "Exception: " + e.getMessage () ) ; e.printStackTrace () ; }
+                
                 // Remove the un-needed components from the JFrame
                 remove(weatherTextArea);
                 remove(weatherInformationPanel);
