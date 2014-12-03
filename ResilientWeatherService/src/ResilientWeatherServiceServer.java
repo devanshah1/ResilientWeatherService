@@ -1,3 +1,5 @@
+import java.io.File;
+import java.io.PrintWriter;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
@@ -23,8 +25,10 @@ public class ResilientWeatherServiceServer
         // Override the default values for hostname if passed through command line.
         if ( args [0].length () != 0 ) { hostname = args [0] ; }
         
+        
         try
         {
+            
             // Set the system property for "java.rmi.server.hostname".
             System.setProperty ( "java.rmi.server.hostname", hostname ) ;
             

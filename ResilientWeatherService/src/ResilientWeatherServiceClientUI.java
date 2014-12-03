@@ -70,7 +70,11 @@ public class ResilientWeatherServiceClientUI extends JFrame
     public JLabel nextSixthDayWeatherLabel;       // Used to store the information for weather for the next sixth day
     
     // Swing components for current weather
-    //public static 
+    public JLabel info;
+    public JLabel windChill;
+    public JLabel condition;
+    public JLabel temp;
+    public JLabel humidity;
     
     /**
      * Default constructor for the ResilientWeatherServiceClientUI class, when 
@@ -234,6 +238,11 @@ public class ResilientWeatherServiceClientUI extends JFrame
         nextForthDayWeatherLabel       = new JLabel();
         nextFifthDayWeatherLabel       = new JLabel();
         nextSixthDayWeatherLabel       = new JLabel();
+        info= new JLabel();
+        windChill= new JLabel();
+        condition= new JLabel();
+        temp= new JLabel();
+        humidity= new JLabel();
         
         // Set some of the options for the side bar
         verticalWeatherOptionsBar.setFloatable(false);                 // Disable moving of the side bar
@@ -317,12 +326,29 @@ public class ResilientWeatherServiceClientUI extends JFrame
             @Override
             public void actionPerformed ( ActionEvent event )
             {
-                // Remove unnecessary components that are in the JFrame
+                
+                // Remove the un-needed components from the JFrame
+                remove(weatherTextArea);
                 remove(weatherInformationPanel);
                 
-                add(weatherTextArea, BorderLayout.CENTER);
-                weatherTextArea.setText ( "CURRENT WEATHER HERE" );
-                repaint ();                                   // Re-draw the JFrame component
+                // Re-using the JPanel so need to remove the components
+                weatherInformationPanel = new JPanel(new GridLayout(5,1));
+
+                // Set the description label for the feed
+                info.setText ( "Current Weather Information for: " + selectedCity + ", " + selectedProvince );
+                
+                // Add all the necessary feed information to the panel that will be displayed when feed clicked
+                weatherInformationPanel.add(info, BorderLayout.PAGE_START);
+                weatherInformationPanel.add(windChill, BorderLayout.PAGE_START);
+                weatherInformationPanel.add(condition, BorderLayout.PAGE_START);
+                weatherInformationPanel.add(temp, BorderLayout.PAGE_START);
+                weatherInformationPanel.add(humidity, BorderLayout.PAGE_START);
+                
+                // Add the JPanel to the JFrame 
+                add ( weatherInformationPanel, BorderLayout.CENTER );
+                
+                pack();      // Pack the components that are added with in the preferred size
+                repaint ();  // Re-draw the JFrame component
             }
         } );
         

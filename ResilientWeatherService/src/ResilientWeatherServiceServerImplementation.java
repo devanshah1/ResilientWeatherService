@@ -85,7 +85,7 @@ public class ResilientWeatherServiceServerImplementation extends UnicastRemoteOb
           
           try
           {
-              doCallbacks ( getFeedsFromWeatherWebsite ( supportedCities.get ( resilientWeatherServiceClientCallbackObject.getCity() ) ) );
+              doCallbacks ( getWeatherWebsite ( supportedCities.get ( resilientWeatherServiceClientCallbackObject.getCity() ) ) );
           }
           // Catch the exception and provide the necessary information to the user.
           catch ( Exception e ) { System.out.println ( "Exception: " + e.getMessage () ) ; e.printStackTrace () ; }
@@ -118,7 +118,7 @@ public class ResilientWeatherServiceServerImplementation extends UnicastRemoteOb
      * with the server.
      * @param feeds 
      */
-    private synchronized void doCallbacks (String feeds )
+    private synchronized void doCallbacks ( String[] weatherData )
     {
         System.out.println ( "-----------------------------------------------------------" ) ;
         System.out.println ( "                      Callback Invoked                     " ) ;
@@ -139,7 +139,9 @@ public class ResilientWeatherServiceServerImplementation extends UnicastRemoteOb
             {
                 // Notify the Client the number of register clients that remain.
                 nextClient.notifyMe ( "Number of Registered Clients that Remain = " + registeredClients.size () ) ;
-                nextClient.setFeeds ( feeds );
+                System.out.println ("SomeThing" + weatherData[0]);
+                nextClient.setFeeds ( weatherData[0] );
+                nextClient.setCurrentWeather ( weatherData[1] );
             }
             // Catch the exception and provide the necessary information to the user.
             catch ( RemoteException e ) { System.out.println( "Remote Exception: " + e.getMessage () ) ; e.printStackTrace() ; }
@@ -217,5 +219,101 @@ public class ResilientWeatherServiceServerImplementation extends UnicastRemoteOb
         catch ( IOException e ) { System.out.println ( "IOException: " + e.getMessage () ) ; e.printStackTrace () ; }
         
         return response.toString ();
+    }
+    
+    public String getCurrentWeatherFromWeatherWebsite ( String cityCode )
+    {
+        
+        // Build the URL to grab the data for
+        String weatherURLPath = "http://weather.gc.ca/city/pages/" + cityCode + "_metric_e.html";
+
+        // Variable deceleration
+        URL url;
+        StringBuffer response = null;
+        int responseCode;
+        
+        try
+        {
+            url = new URL(weatherURLPath);
+            
+            HttpURLConnection weatherSiteConnection = (HttpURLConnection) url.openConnection();
+
+            // Set the type of request that is going to be performed 
+            weatherSiteConnection.setRequestMethod("GET");
+
+            // Add request header
+            weatherSiteConnection.setRequestProperty("User-Agent", USER_AGENT);
+
+            // Get the response code from the connection
+            responseCode = weatherSiteConnection.getResponseCode();
+            
+            System.out.println( "Sending 'GET' Request to URL: " + url + "\n");
+            System.out.println( "Response Code: " + responseCode);
+
+            // Only attempt to read the web-site if the connections was successful  
+            if ( responseCode == 200 ) 
+            {
+               // Read the web-site into a buffer reader
+               BufferedReader in = new BufferedReader( new InputStreamReader( weatherSiteConnection.getInputStream() ) );
+               
+               // Variable deceleration
+               String inputLine;
+
+               // Construct the string buffer
+               response = new StringBuffer();
+                
+               // Loop through the buffer reader and grab the lines and store them.
+               while ( ( inputLine = in.readLine() ) != null ) 
+               {
+                   if ( inputLine.contains ( "currentimg" ) )
+                   {
+                       // Append the string that was retrieved into a string buffer
+                       response.append(inputLine + "\n");
+                   }
+                   else if ( inputLine.contains ( "Temperature:" ) )
+                   {
+                       response.append(inputLine = in.readLine() + "\n");
+                   }
+                   else if ( inputLine.contains ( "Humidity:" ) )
+                   {
+                       response.append(inputLine = in.readLine() + "\n");
+                   }
+                   else if ( inputLine.contains ( "Wind Chill" ) )
+                   {
+                       inputLine = in.readLine();
+                       response.append(inputLine = in.readLine() + "\n");
+                   }
+                   else if ( inputLine.contains ( "Condition:" ) )
+                   {
+                       response.append(inputLine = in.readLine() + "\n");
+                   }
+                   
+               }
+               in.close();
+            }
+            else {
+                System.out.println ( "Connection to the website: " + weatherURLPath + "failed." );
+            }
+
+        }
+        // Catch the exception and provide the necessary information to the user.
+        catch ( MalformedURLException e ) { System.out.println ( "MalformedURLException: " + e.getMessage () ) ; e.printStackTrace () ; }
+        catch ( IOException e ) { System.out.println ( "IOException: " + e.getMessage () ) ; e.printStackTrace () ; }
+        
+        return response.toString ();
+    }
+    
+    /**
+     * 
+     */
+    public String[] getWeatherWebsite ( String city )
+    {
+        String[] weatherData = new String[2] ;
+        
+        weatherData[0] = getFeedsFromWeatherWebsite ( city );
+        weatherData[1] = getCurrentWeatherFromWeatherWebsite ( city );
+        
+        return weatherData;
+        
     }
 }

@@ -44,9 +44,10 @@ public interface ResilientWeatherServiceClientInterface extends Remote
     
     /**
      * 
+     * @param weatherData 
      * @throws RemoteException
      */
-    public void setCurrentWeather () throws RemoteException ;
+    public void setCurrentWeather ( String weatherData ) throws RemoteException ;
 
     /**
      * 

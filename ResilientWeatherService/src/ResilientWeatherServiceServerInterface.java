@@ -46,4 +46,20 @@ public interface ResilientWeatherServiceServerInterface extends Remote
      * @throws RemoteException
      */
     public String getFeedsFromWeatherWebsite ( String cityCode ) throws RemoteException ;
+    
+    /**
+     * 
+     * @param cityCode
+     * @return
+     * @throws RemoteException
+     */
+    public String getCurrentWeatherFromWeatherWebsite ( String cityCode ) throws RemoteException ;
+    
+    /**
+     * 
+     * @param feeds
+     * @return
+     * @throws RemoteException
+     */
+    public String[] getWeatherWebsite ( String city ) throws RemoteException ;
 }
