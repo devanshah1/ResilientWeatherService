@@ -1,64 +1,107 @@
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.InputStreamReader;
+import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.TimeUnit;
 
+/**
+ * 
+ * @author Devan Shah 100428864 Miguel Arindaeng 100394094
+ *
+ */
 public class ResilientWeatherServiceMonitor
 {
 
+    /**
+     * 
+     * @param args
+     */
     public static void main ( String [] args )
     {
 
-        while (true) 
+        // Variable deceleration
+        String hostname = "localhost" ; // Default host to use
+        boolean serverDown = false ;
+        
+        // Override the default values for hostname if passed through command line.
+        if ( args [0].length () != 0 ) { hostname = args [0] ; }
+        
+        while ( true )
         {
             try
             {
-                Thread.sleep ( 3000 );
+                // Set the system property for "java.rmi.server.hostname".
+                System.setProperty ( "java.rmi.server.hostname", hostname ) ;
+
+                // Declare registry variable
+                Registry registry ;
+                
+                // This try catch is to make sure that the registry is created
+                try 
+                {
+                    // Try to get the remote object Registry for the local host on the default registry port of 1099.
+                    registry = LocateRegistry.getRegistry() ;
+                    registry.list() ; // Fetch the names bounded to the registry
+                }
+                // Catch the exception where communication with the registry fails and create the registry.
+                catch ( RemoteException e ) 
+                {
+                    serverDown = true ;
+                    System.out.println( "Found ResilientWeatherServiceServer not running \n Restarting ResilientWeatherServiceServer ..."); 
+                    
+                    ScheduledTaskExample restartResilientWeatherServiceServerScheduler = new ScheduledTaskExample();
+                    restartResilientWeatherServiceServerScheduler.startScheduleTask();
+                    Thread.sleep ( 5000 );
+                }
+                
+                if ( !serverDown )
+                {
+                    System.out.println("Monitoring ResilientWeatherServiceServer") ;   
+                }
             }
-            catch ( InterruptedException e )
-            {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-            System.out.println("Monitoring ResilientWeatherServiceServer") ; 
-            
-            File file = new File("monitorFile.txt");
-            
-            if(file.exists() && !file.isDirectory()) 
-            { 
-                System.out.println( "Found ResilientWeatherServiceServer not running \n Restarting ResilientWeatherServiceServer ..."); 
-            }
+            // Catch the exception and provide the necessary information to the user.        
+            catch ( Exception e ) { System.out.println ( "Exception: " + e.getMessage () ) ; e.printStackTrace () ; }    
         }
     }
+}
 
-    @SuppressWarnings ( "unused" )
-    private String executeCommand ( String command )
+/**
+ * 
+ * @author 100428864
+ *
+ */
+class ScheduledTaskExample
+{
+    private final ScheduledExecutorService resilientWeatherServiceServerScheduler = Executors.newScheduledThreadPool ( 1 );
+
+    /**
+     * 
+     */
+    public void startScheduleTask ()
     {
-
-        StringBuffer output = new StringBuffer ();
-
-        Process p;
-        try
-        {
-            p = Runtime.getRuntime ().exec ( command );
-            p.waitFor ();
-            BufferedReader reader =
-                    new BufferedReader ( new InputStreamReader (
-                            p.getInputStream () ) );
-
-            String line = "";
-            while ( ( line = reader.readLine () ) != null )
+        /**
+         * not using the taskHandle returned here, but it can be used to cancel
+         * the task, or check if it's done (for recurring tasks, that's not
+         * going to be very useful)
+         */
+        final ScheduledFuture <?> taskHandle = resilientWeatherServiceServerScheduler.scheduleAtFixedRate (
+                
+            new Runnable ()
             {
-                output.append ( line + "\n" );
-            }
-
-        }
-        catch ( Exception e )
-        {
-            e.printStackTrace ();
-        }
-
-        return output.toString ();
-
+                /**
+                 * 
+                 */
+                public void run ()
+                {   
+                    try
+                    {
+                        Runtime.getRuntime ().exec (new String [] { "cmd", "/k", "start", "startup.cmd" } );
+                    }
+                    // Catch the exception and provide the necessary information to the user.        
+                    catch ( Exception e ) { System.out.println ( "Exception: " + e.getMessage () ) ; e.printStackTrace () ; }
+                }
+            }, 0, 15, TimeUnit.MINUTES );
     }
-
 }
