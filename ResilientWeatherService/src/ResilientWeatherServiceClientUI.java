@@ -70,11 +70,11 @@ public class ResilientWeatherServiceClientUI extends JFrame
     public JLabel nextSixthDayWeatherLabel;       // Used to store the information for weather for the next sixth day
     
     // Swing components for current weather
-    public JLabel info;
-    public JLabel windChill;
-    public JLabel condition;
-    public JLabel temp;
-    public JLabel humidity;
+    public JLabel weatherLocationInformationCurLabel;
+    public JLabel currentWeatherWindChillLabel;
+    public JLabel currentWeatherConditionLabel;
+    public JLabel currentWeatherTemperatureLabel;
+    public JLabel currentWeatherHumidityLabel;
     
     /**
      * Default constructor for the ResilientWeatherServiceClientUI class, when 
@@ -121,15 +121,15 @@ public class ResilientWeatherServiceClientUI extends JFrame
         weatherTextArea.setText ( "WELCOME ... Go to Setting to configure your weather settings." );
         
         // Start adding the major components to the JFrame
-        add(weatherTextArea, BorderLayout.CENTER);          // Add the weather text area
-        add(weatherInformationPanel, BorderLayout.CENTER);  // Add the weather information panel
-        add(verticalWeatherOptionsBar, BorderLayout.WEST);  // Add the weather options side bar
+        add( weatherTextArea, BorderLayout.CENTER );          // Add the weather text area
+        add( weatherInformationPanel, BorderLayout.CENTER );  // Add the weather information panel
+        add( verticalWeatherOptionsBar, BorderLayout.WEST );  // Add the weather options side bar
         
-        setPreferredSize( new Dimension(500, 500) );    // Set the preferred size of the JFrame
-        pack();                                         // Pack the components that are added with in the preferred size
-        setTitle("Resilient Weather Service");          // Set the title of the JFrame
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Specify an operation to be performed on close of the JFrame
-        setLocationRelativeTo(null);                    // Set the position of the JFrame
+        setPreferredSize( new Dimension(500, 500) );      // Set the preferred size of the JFrame
+        pack();                                           // Pack the components that are added with in the preferred size
+        setTitle( "Resilient Weather Service" );          // Set the title of the JFrame
+        setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE ); // Specify an operation to be performed on close of the JFrame
+        setLocationRelativeTo(null);                      // Set the position of the JFrame
     }
     
     /**
@@ -146,7 +146,7 @@ public class ResilientWeatherServiceClientUI extends JFrame
          *  these arrays are hard-coded for the purpose of simplicity.
          */
         supportedProvincesList = new JComboBox<String>(supportedProvinces);
-        supportedCitiesList = new JComboBox<String>(supportedCities);
+        supportedCitiesList    = new JComboBox<String>(supportedCities);
         
         // Perform some setup configurations for the supportedProvincesList 
         supportedProvincesList.setForeground ( Color.BLUE );              // Set the foreground to blue
@@ -173,11 +173,14 @@ public class ResilientWeatherServiceClientUI extends JFrame
                 {
                     // Get the province list and grab the selected item
                     JComboBox<String> provinceCombo = (JComboBox<String>) event.getSource();
-                    selectedProvince = (String) provinceCombo.getSelectedItem();
+                    selectedProvince                = (String) provinceCombo.getSelectedItem();
                     
                     try
                     {
+                        // Unregister and re-register the client call back object when there is a change in the province
                         resilientWeatherServiceServerCaller.unregisterForCallback ( resilientWeatherServiceClientCallBack ) ;
+                        
+                        // Set the new province in the client callback object before registering again
                         resilientWeatherServiceClientCallBack.setProvince ( selectedProvince );
                         resilientWeatherServiceServerCaller.registerForCallback ( resilientWeatherServiceClientCallBack ) ;
                     }
@@ -187,7 +190,7 @@ public class ResilientWeatherServiceClientUI extends JFrame
         });
         
         /**
-         *  Add an event listener for the supportedProvincesList drop-down list 
+         *  Add an event listener for the supportedCitiesList drop-down list 
          *  when the default selection is changed by the user.
          */
         supportedCitiesList.addActionListener(new ActionListener() {
@@ -201,12 +204,15 @@ public class ResilientWeatherServiceClientUI extends JFrame
                 {
                     // Get the cities list and grab the selected item
                     JComboBox<String> cityCombo = (JComboBox<String>) event.getSource();
-                    selectedCity = (String) cityCombo.getSelectedItem();
+                    selectedCity                = (String) cityCombo.getSelectedItem();
                     
                     try
                     {
+                        // Unregister and re-register the client call back object when there is a change in the province
                         resilientWeatherServiceServerCaller.unregisterForCallback ( resilientWeatherServiceClientCallBack ) ;
-                        resilientWeatherServiceClientCallBack.setCity ( selectedCity );
+                        
+                        // Set the new city in the client callback object before registering again
+                        resilientWeatherServiceClientCallBack.setCity ( selectedCity ); 
                         resilientWeatherServiceServerCaller.registerForCallback ( resilientWeatherServiceClientCallBack ) ;
                     }
                     // Catch the exception and provide the necessary information to the user.
@@ -226,23 +232,23 @@ public class ResilientWeatherServiceClientUI extends JFrame
          *  of feeds, current weather and settings to the user. Also create 
          *  the needed feeds swing objects.
          */
-        verticalWeatherOptionsBar      = new JToolBar(JToolBar.VERTICAL);
-        weatherLocationInformation     = new JLabel();
-        weatherWatchesAndWarningsLabel = new JLabel();
-        currentWeatherConditionsLabel  = new JLabel();
-        currentDayWeatherLabel         = new JLabel();
-        currentDayNightWeatherLabel    = new JLabel();
-        nextFirstDayWeatherLabel       = new JLabel();
-        nextSecondDayWeatherLabel      = new JLabel();
-        nextThirdDayWeatherLabel       = new JLabel();
-        nextForthDayWeatherLabel       = new JLabel();
-        nextFifthDayWeatherLabel       = new JLabel();
-        nextSixthDayWeatherLabel       = new JLabel();
-        info= new JLabel();
-        windChill= new JLabel();
-        condition= new JLabel();
-        temp= new JLabel();
-        humidity= new JLabel();
+        verticalWeatherOptionsBar          = new JToolBar(JToolBar.VERTICAL);
+        weatherLocationInformation         = new JLabel();
+        weatherWatchesAndWarningsLabel     = new JLabel();
+        currentWeatherConditionsLabel      = new JLabel();
+        currentDayWeatherLabel             = new JLabel();
+        currentDayNightWeatherLabel        = new JLabel();
+        nextFirstDayWeatherLabel           = new JLabel();
+        nextSecondDayWeatherLabel          = new JLabel();
+        nextThirdDayWeatherLabel           = new JLabel();
+        nextForthDayWeatherLabel           = new JLabel();
+        nextFifthDayWeatherLabel           = new JLabel();
+        nextSixthDayWeatherLabel           = new JLabel();
+        weatherLocationInformationCurLabel = new JLabel();
+        currentWeatherWindChillLabel       = new JLabel();
+        currentWeatherConditionLabel       = new JLabel();
+        currentWeatherTemperatureLabel     = new JLabel();
+        currentWeatherHumidityLabel        = new JLabel();
         
         // Set some of the options for the side bar
         verticalWeatherOptionsBar.setFloatable(false);                 // Disable moving of the side bar
@@ -278,6 +284,7 @@ public class ResilientWeatherServiceClientUI extends JFrame
             {
                 try
                 {
+                    // Unregister and re-register the client call back object when there is a change in the province
                     resilientWeatherServiceServerCaller.unregisterForCallback ( resilientWeatherServiceClientCallBack ) ;
                     resilientWeatherServiceServerCaller.registerForCallback ( resilientWeatherServiceClientCallBack ) ;
                 }
@@ -326,6 +333,14 @@ public class ResilientWeatherServiceClientUI extends JFrame
             @Override
             public void actionPerformed ( ActionEvent event )
             {
+                try
+                {
+                    // Unregister and re-register the client call back object when there is a change in the province
+                    resilientWeatherServiceServerCaller.unregisterForCallback ( resilientWeatherServiceClientCallBack ) ;
+                    resilientWeatherServiceServerCaller.registerForCallback ( resilientWeatherServiceClientCallBack ) ;
+                }
+                // Catch the exception and provide the necessary information to the user.
+                catch ( Exception e ) { System.out.println ( "Exception: " + e.getMessage () ) ; e.printStackTrace () ; }
                 
                 // Remove the un-needed components from the JFrame
                 remove(weatherTextArea);
@@ -335,14 +350,14 @@ public class ResilientWeatherServiceClientUI extends JFrame
                 weatherInformationPanel = new JPanel(new GridLayout(5,1));
 
                 // Set the description label for the feed
-                info.setText ( "Current Weather Information for: " + selectedCity + ", " + selectedProvince );
+                weatherLocationInformationCurLabel.setText ( "Current Weather Information for: " + selectedCity + ", " + selectedProvince );
                 
-                // Add all the necessary feed information to the panel that will be displayed when feed clicked
-                weatherInformationPanel.add(info, BorderLayout.PAGE_START);
-                weatherInformationPanel.add(windChill, BorderLayout.PAGE_START);
-                weatherInformationPanel.add(condition, BorderLayout.PAGE_START);
-                weatherInformationPanel.add(temp, BorderLayout.PAGE_START);
-                weatherInformationPanel.add(humidity, BorderLayout.PAGE_START);
+                // Add all the necessary current weather information to the panel that will be displayed when current weather is clicked
+                weatherInformationPanel.add(weatherLocationInformationCurLabel, BorderLayout.PAGE_START);
+                weatherInformationPanel.add(currentWeatherWindChillLabel, BorderLayout.PAGE_START);
+                weatherInformationPanel.add(currentWeatherConditionLabel, BorderLayout.PAGE_START);
+                weatherInformationPanel.add(currentWeatherTemperatureLabel, BorderLayout.PAGE_START);
+                weatherInformationPanel.add(currentWeatherHumidityLabel, BorderLayout.PAGE_START);
                 
                 // Add the JPanel to the JFrame 
                 add ( weatherInformationPanel, BorderLayout.CENTER );

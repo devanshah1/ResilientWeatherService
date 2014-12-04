@@ -141,7 +141,7 @@ public class ResilientWeatherServiceClientImplementation extends UnicastRemoteOb
         for ( int i = 0; i < currentWeatherParsed.length; i++ ) 
         {
             // Parse settings for the image source
-            if ( currentWeatherParsed[i].contains ( "currentimg" ) )
+            if ( i == 0 )
             {
                 // Match the regex and extract the phrase
                 pattern = Pattern.compile("src=\"/[a-zA-Z]+/[0-9]+.[a-zA-Z]+\"");
@@ -214,10 +214,14 @@ public class ResilientWeatherServiceClientImplementation extends UnicastRemoteOb
         }
         
         // Set all the data current weather information into the User interface after the current weather data is parsed
-        resilientWeatherServiceClientUserInterface.windChill.setText ( currentWeatherParsed[1] );
-        resilientWeatherServiceClientUserInterface.condition.setText ( currentWeatherParsed[2] );
-        resilientWeatherServiceClientUserInterface.temp.setText ( currentWeatherParsed[3] );
-        resilientWeatherServiceClientUserInterface.humidity.setText ( currentWeatherParsed[4] );
+        resilientWeatherServiceClientUserInterface.currentWeatherWindChillLabel.setText ( currentWeatherParsed[1] );
+        resilientWeatherServiceClientUserInterface.currentWeatherConditionLabel.setText ( currentWeatherParsed[2] );
+        resilientWeatherServiceClientUserInterface.currentWeatherTemperatureLabel.setText ( currentWeatherParsed[3] );
+        
+        if ( currentWeatherParsed.length > 4 )
+        {
+            resilientWeatherServiceClientUserInterface.currentWeatherHumidityLabel.setText ( currentWeatherParsed[4] );    
+        }
     }
 
     /**
