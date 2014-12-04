@@ -23,7 +23,7 @@ import javax.swing.border.EmptyBorder;
  * This class is used to construct the Resilient Weather Service Client UI.
  * Read through the below comments to get more details on the functionality of the
  * class and its dependent functions.
- * @author Devan Shah 100428864 Miguel Arindaeng 100394094
+ * @author Devan Shah 100428864
  *
  */
 public class ResilientWeatherServiceClientUI extends JFrame 

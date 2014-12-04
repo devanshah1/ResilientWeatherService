@@ -8,7 +8,7 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * 
- * @author Devan Shah 100428864 Miguel Arindaeng 100394094
+ * @author Devan Shah 100428864
  *
  */
 public class ResilientWeatherServiceMonitor

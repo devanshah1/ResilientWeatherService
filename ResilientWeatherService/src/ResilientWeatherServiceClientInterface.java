@@ -2,10 +2,10 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 
 /**
- * The HelloClientInterface contains methods that can be invoked 
- * to notify the client of the messages. This interface extends
+ * The ResilientWeatherServiceClientInterface contains methods that can be invoked 
+ * to notify the client of the messages and set data in the user interface. This interface extends
  * Remote so that the functions can be accessed remotely.
- * @author Devan Shah 100428864 Miguel Arindaeng 100394094
+ * @author Devan Shah 100428864
  *
  */
 public interface ResilientWeatherServiceClientInterface extends Remote
@@ -35,23 +35,24 @@ public interface ResilientWeatherServiceClientInterface extends Remote
     public void setCity ( String newCity ) throws RemoteException ;
     
     /**
-     * This function is used to set the feeds in the Resilient Weather Service
-     * user interface.
-     * @param feeds 
+     * This function is used to parse the feed data and then set the feeds 
+     * in the Resilient Weather Service user interface.
+     * @param feeds - Unparsed feed data
      * @throws RemoteException
      */
-    public void setFeeds (String feeds ) throws RemoteException ;
+    public void setFeeds ( String feeds ) throws RemoteException ;
     
     /**
-     * 
-     * @param weatherData 
+     * This function is used to parse the current weather data and then set the current
+     * weather in the Resilient Weather Service user interface.
+     * @param weatherData - Unparsed current weather data
      * @throws RemoteException
      */
     public void setCurrentWeather ( String weatherData ) throws RemoteException ;
 
     /**
-     * 
-     * @return
+     * Return the current city that is set.
+     * @return city - the city that is set in the object
      */
     public String getCity () throws RemoteException;
 }

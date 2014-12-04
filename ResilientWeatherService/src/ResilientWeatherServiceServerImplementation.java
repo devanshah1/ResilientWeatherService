@@ -13,7 +13,7 @@ import java.util.Vector;
 /**
  * This class contains the methods implementation that are defined in HelloServerInterface. 
  * Also contains one extra function that is used to perform the call back.
- * @author Devan Shah 100428864 Miguel Arindaeng 100394094
+ * @author Devan Shah 100428864
  *
  */
 public class ResilientWeatherServiceServerImplementation extends UnicastRemoteObject implements ResilientWeatherServiceServerInterface
