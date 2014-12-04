@@ -102,7 +102,7 @@ class ScheduledTaskResilientWeatherServices
                 {   
                     try
                     {
-                        // Open up commnad windows and run script to start the server
+                        // Open up command windows and run script to start the server
                         Runtime.getRuntime ().exec (new String [] { "cmd", "/k", "start", "startup.cmd" } );
                     }
                     // Catch the exception and provide the necessary information to the user.        

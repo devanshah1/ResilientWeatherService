@@ -3,15 +3,16 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 
 /**
- * This class is used to initialize the Hello server that is used to perform 
- * callbacks and store multiple registered clients.
+ * This class is used to initialize the Resilient Weather Service server that is used to perform 
+ * callbacks and store multiple registered clients. The server also grabs the data from the
+ * websites for the cities that are set on the clients.
  * @author Devan Shah 100428864
  *
  */
 public class ResilientWeatherServiceServer
 {
     /**
-     * Main server function used to perform the look up and rebind of the HelloServerInterface
+     * Main server function used to perform the look up and rebind of the ResilientWeatherServiceServerInterface
      * to all for remote method invocation.
      * @param args - args[0] - The hostname to use, default is localhost if not provided
      */
