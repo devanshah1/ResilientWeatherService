@@ -25,7 +25,6 @@ public class ResilientWeatherServiceServer
         
         try
         {
-            
             // Set the system property for "java.rmi.server.hostname".
             System.setProperty ( "java.rmi.server.hostname", hostname ) ;
             
