@@ -11,8 +11,7 @@ import java.util.Map;
 import java.util.Vector;
 
 /**
- * This class contains the methods implementation that are defined in HelloServerInterface. 
- * Also contains one extra function that is used to perform the call back.
+ * This class contains the methods implementation that are defined in ResilientWeatherServiceServerInterface. 
  * @author Devan Shah 100428864
  *
  */
@@ -22,30 +21,33 @@ public class ResilientWeatherServiceServerImplementation extends UnicastRemoteOb
     // Default serialization ID
     private static final long serialVersionUID = 1L ;
     
+    // Set the type to retrieve the data as
     public static String USER_AGENT = "Mozilla/5.0";
     
+    // Stores the supported provinces 
     public static Map<String, String> supportedProvinces = new HashMap<String, String>();
     static {
-        supportedProvinces.put("ON", "Ontario");
+        supportedProvinces.put ( "ON", "Ontario" );
         supportedProvinces.put ( "MB", "Manitoba" );
     }
 
+    // Stores the supported cities
     public static Map<String, String> supportedCities = new HashMap<String, String>();
     static {
-        supportedCities.put("Oshawa", "on-117");
-        supportedCities.put("Vaughan", "on-64");
+        supportedCities.put ( "Oshawa", "on-117" );
+        supportedCities.put ( "Vaughan", "on-64" );
         supportedCities.put ( "Winnipeg", "mb-38" );
     }
     
     /*
-     * Stores the object of the HelloClientInterface:
+     * Stores the object of the ResilientWeatherServiceClientInterface:
      *    Used to keep track of the registered clients.
      */
     private Vector < ResilientWeatherServiceClientInterface > registeredClients ;
 
     /**
      * Constructor of the class that is used to initialize the registeredClients 
-     * as a vector of HelloClienInterface objects.  
+     * as a vector of ResilientWeatherServiceClientInterface objects.  
      * @throws RemoteException
      */
     public ResilientWeatherServiceServerImplementation () throws RemoteException
@@ -67,9 +69,10 @@ public class ResilientWeatherServiceServerImplementation extends UnicastRemoteOb
 
     /**
      * This function is used to register the client for callback. This function also performs
-     * the callback to return back the number of clients that are already registered.
+     * the callback to return back the number of clients that are already registered. Also 
+     * calls the action to update the feeds and the current weather for the clients.
      * Handles not registering the same client twice. ( if the client calls registerForCallback 
-     * with the same clientCallbackObject.
+     * with the same clientCallbackObject.)
      */
     public synchronized void registerForCallback ( ResilientWeatherServiceClientInterface resilientWeatherServiceClientCallbackObject )
     {
@@ -85,6 +88,7 @@ public class ResilientWeatherServiceServerImplementation extends UnicastRemoteOb
           
           try
           {
+              // Perform the call backs actions notify number of clients, feeds and current weather.
               doCallbacks ( getWeatherWebsite ( supportedCities.get ( resilientWeatherServiceClientCallbackObject.getCity() ) ) );
           }
           // Catch the exception and provide the necessary information to the user.
@@ -116,7 +120,7 @@ public class ResilientWeatherServiceServerImplementation extends UnicastRemoteOb
      * This is a private function that is used to report back to the clients that are
      * registered for callback with the number of clients that are currently registered
      * with the server.
-     * @param feeds 
+     * @param weatherData - index 0 stores the feeds and index 1 stores the current weather data
      */
     private synchronized void doCallbacks ( String[] weatherData )
     {
@@ -139,7 +143,6 @@ public class ResilientWeatherServiceServerImplementation extends UnicastRemoteOb
             {
                 // Notify the Client the number of register clients that remain.
                 nextClient.notifyMe ( "Number of Registered Clients that Remain = " + registeredClients.size () ) ;
-                System.out.println ("SomeThing" + weatherData[0]);
                 nextClient.setFeeds ( weatherData[0] );
                 nextClient.setCurrentWeather ( weatherData[1] );
             }
@@ -153,9 +156,9 @@ public class ResilientWeatherServiceServerImplementation extends UnicastRemoteOb
     }
     
     /**
-     * 
-     * @param cityCode
-     * @return
+     * This function is used to get the feeds data from the weather websites
+     * @param cityCode  - Provide the city code to get the feeds data for
+     * @return feeds - returns back the unparsed feed data
      * @throws Exception
      */
     public String getFeedsFromWeatherWebsite ( String cityCode )
@@ -170,8 +173,10 @@ public class ResilientWeatherServiceServerImplementation extends UnicastRemoteOb
         
         try
         {
+            // Create a new url object with the url that would like to retrieve data for
             url = new URL(weatherURLPath);
             
+            // Open a connection to the website
             HttpURLConnection weatherSiteConnection = (HttpURLConnection) url.openConnection();
 
             // Set the type of request that is going to be performed 
@@ -183,8 +188,8 @@ public class ResilientWeatherServiceServerImplementation extends UnicastRemoteOb
             // Get the response code from the connection
             responseCode = weatherSiteConnection.getResponseCode();
             
-            System.out.println( "Sending 'GET' Request to URL: " + url + "\n");
-            System.out.println( "Response Code: " + responseCode);
+            System.out.println( "Sending 'GET' Request to URL: " + url + "\n" );
+            System.out.println( "Response Code: " + responseCode );
 
             // Only attempt to read the web-site if the connections was successful  
             if ( responseCode == 200 ) 
@@ -201,6 +206,7 @@ public class ResilientWeatherServiceServerImplementation extends UnicastRemoteOb
                // Loop through the buffer reader and grab the lines and store them.
                while ( ( inputLine = in.readLine() ) != null ) 
                {
+                   // Only get the details of the title xml tag
                    if ( inputLine.contains ( "title" ) )
                    {
                        // Append the string that was retrieved into a string buffer
@@ -221,6 +227,12 @@ public class ResilientWeatherServiceServerImplementation extends UnicastRemoteOb
         return response.toString ();
     }
     
+    /**
+     * This function is used to get the current weather data from the website
+     * @param cityCode  - Provide the city code to get the feeds data for
+     * @return currentWeather - returns back the unparsed current Weather data
+     * @throws RemoteException
+     */
     public String getCurrentWeatherFromWeatherWebsite ( String cityCode )
     {
         
@@ -234,8 +246,10 @@ public class ResilientWeatherServiceServerImplementation extends UnicastRemoteOb
         
         try
         {
+            // Create a new url object with the url that would like to retrieve data for
             url = new URL(weatherURLPath);
             
+            // Open a connection to the website
             HttpURLConnection weatherSiteConnection = (HttpURLConnection) url.openConnection();
 
             // Set the type of request that is going to be performed 
@@ -247,8 +261,8 @@ public class ResilientWeatherServiceServerImplementation extends UnicastRemoteOb
             // Get the response code from the connection
             responseCode = weatherSiteConnection.getResponseCode();
             
-            System.out.println( "Sending 'GET' Request to URL: " + url + "\n");
-            System.out.println( "Response Code: " + responseCode);
+            System.out.println( "Sending 'GET' Request to URL: " + url + "\n" );
+            System.out.println( "Response Code: " + responseCode );
 
             // Only attempt to read the web-site if the connections was successful  
             if ( responseCode == 200 ) 
@@ -265,6 +279,7 @@ public class ResilientWeatherServiceServerImplementation extends UnicastRemoteOb
                // Loop through the buffer reader and grab the lines and store them.
                while ( ( inputLine = in.readLine() ) != null ) 
                {
+                   // Parse the data from the website, based on the values that are needed
                    if ( inputLine.contains ( "currentimg" ) )
                    {
                        // Append the string that was retrieved into a string buffer
@@ -287,7 +302,6 @@ public class ResilientWeatherServiceServerImplementation extends UnicastRemoteOb
                    {
                        response.append(inputLine = in.readLine() + "\n");
                    }
-                   
                }
                in.close();
             }
@@ -304,16 +318,22 @@ public class ResilientWeatherServiceServerImplementation extends UnicastRemoteOb
     }
     
     /**
-     * 
+     * This function is used to get feeds and current weather data from the websites
+     * @param city - Pass in the cityCode that the data needs to be retried for
+     * @return weatherData array which contains the feeds and current weather data
+     * @throws RemoteException
      */
     public String[] getWeatherWebsite ( String city )
     {
+        // Initialize weatherData array with max of size 2 
         String[] weatherData = new String[2] ;
         
+        // Get the feeds and store it in index 0
         weatherData[0] = getFeedsFromWeatherWebsite ( city );
+        
+        // Get the current weather data ans store it in index 1
         weatherData[1] = getCurrentWeatherFromWeatherWebsite ( city );
         
         return weatherData;
-        
     }
 }
